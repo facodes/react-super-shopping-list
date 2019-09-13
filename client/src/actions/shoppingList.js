@@ -1,8 +1,11 @@
 import { UPDATE_SHOPPINGLISTS } from '../actions/types'
+import {
+  URL
+} from '../API'
 
 export const addNewShoppingList = (name) => {
    return async (dispatch, getState) => {
-      const res = await fetch('/api/user/shopping' ,{
+      const res = await fetch(`${URL}/api/user/shopping` ,{
         method:'POST',
         body:JSON.stringify({name}),
         headers:{
@@ -17,7 +20,7 @@ export const addNewShoppingList = (name) => {
 
 export const removeShoppingList = id => {
   return async (dispatch, getState) => {
-    const res = await fetch('/api/user/shopping' ,{
+    const res = await fetch(`${URL}/api/user/shopping` ,{
       method:'DELETE',
       body:JSON.stringify({id}),
       headers:{

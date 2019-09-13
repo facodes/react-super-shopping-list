@@ -8,6 +8,9 @@ import { setLoading } from './control'
 import { showAlert } from './alert';
 
 
+import {
+  URL
+} from '../API'
 
 export const signIn = (payload) =>{
   return async dispatch => {
@@ -25,7 +28,7 @@ export const signIn = (payload) =>{
 
     dispatch(setLoading(true));
     // Making the request
-    const res =  await fetch('/api/signin',{
+    const res =  await fetch(`${URL}/api/signin`,{
       method:'POST',
       body:JSON.stringify(payload),
       headers:{
@@ -57,7 +60,7 @@ export const logIn = payload =>{
     }
 
     dispatch(setLoading(true));
-    const res = await fetch('/api/login',{
+    const res = await fetch(`${URL}/api/login`,{
       method:'POST',
       body:JSON.stringify(payload),
       headers:{"Content-type" : "application/json"}
@@ -81,7 +84,7 @@ export const logOut = () => {
 
 export const loadUser = (token) => {
   return async (dispatch) => {
-    const res = await fetch('/api/user/auth', {
+    const res = await fetch(`${URL}/api/user/auth`, {
       headers:{
         'x-auth-token':token,
       }

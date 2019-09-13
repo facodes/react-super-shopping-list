@@ -1,10 +1,13 @@
 import { UPDATE_SHOPPINGLISTS } from './types';
+import {
+  URL
+} from '../API'
 
 export const addNewItem  = name => {
   return async (dispatch, getState) => {
 
     const shoppingList =  getState().control.shoppingListSelected;
-    const res = await fetch('/api/user/item' ,{
+    const res = await fetch(`${URL}/api/user/item` ,{
       method:'POST',
       body:JSON.stringify({name, id:shoppingList._id}),
       headers:{
@@ -29,7 +32,7 @@ export const addNewItem  = name => {
 export const removeItem = itemID => {
   return async (dispatch, getState) => {
     const shoppingList =  getState().control.shoppingListSelected;
-    const res = await fetch('/api/user/item' ,{
+    const res = await fetch(`${URL}/api/user/item` ,{
       method:'DELETE',
       body:JSON.stringify({itemID, shoppingListID:shoppingList._id}),
       headers:{
@@ -54,7 +57,7 @@ export const removeItem = itemID => {
 export const toggleTodoDone = itemID => {
   return async (dispatch, getState) => { 
     const shoppingList =  getState().control.shoppingListSelected;
-    const res = await fetch('/api/user/item/done' ,{
+    const res = await fetch(`${URL}/api/user/item/done` ,{
       method:'POST',
       body:JSON.stringify({itemID, shoppingListID:shoppingList._id}),
       headers:{
