@@ -1,14 +1,10 @@
 {
-  "name": "heroku-mern-deploy",
+  "name": "supper-shopping-list-api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "client-install": "cd ./client && npm isntall",
     "start": "node app.js",
-    "server": "nodemon app.js",
-    "client": "cd ./client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
-    
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -22,7 +18,5 @@
     "morgan": "~1.9.1",
     "nodemon": "^1.19.0"
   },
-  "devDependencies": {
-    "concurrently": "^4.1.0"
-  }
+  "devDependencies": {}
 }
