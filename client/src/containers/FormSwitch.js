@@ -1,70 +1,90 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { connect } from 'react-redux'
-import { signIn , logIn } from '../actions/auth'
+import { connect } from 'react-redux';
+import { signIn, logIn } from '../actions/auth';
 
-import LoginForm  from '../components/LoginForm'
-import SignInForm  from '../components/SignInForm'
+import styled from 'styled-components';
+
+import LoginForm from '../components/LoginForm';
+import SignInForm from '../components/SignInForm';
+
+const FormSwitchWrapper = styled.div`
+  width: 99.5%;
+  margin: 0 auto;
+  background: var(--color-dark);
+  color: var(--color-light);
+  border-radius: 32px;
+`;
+
+const SwitchWrapper = styled.div`
+  margin-top: 3em;
+  padding: 5em;
+  display: flex;
+  justify-content: center;
+`;
+
+const Link = styled.button`
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--color-secondary);
+  font-size: 1.8rem;
+  text-decoration: underline;
+  font-weight: var(--regular);
+`;
 
 export class FormSwitch extends Component {
-
-  state = { 
-    type:true,
-  }
+  state = {
+    type: true
+  };
   setFormType = value => {
-    this.props.onClearAlert()
-    this.setState({type:value});
-  }
+    this.props.onClearAlert();
+    this.setState({ type: value });
+  };
   render() {
     return (
-      <div className="bg-light p-4 rounded border border-secondary mb-3">
-        <h5 className="text-center mb-3">Welcome to Super Shopping List!</h5>  
-        {
-          this.state.type ? 
-          ( <React.Fragment>
-              <LoginForm onLogIn = {this.props.onLogIn}/>
-              <hr className="my-4"></hr>
-              <div className="text-center"> 
-                <button type="button" className="btn btn-link"
-                  onClick={this.setFormType.bind(this,false)}
-                >Sign Up!</button>
-              </div>
-           
-            </React.Fragment>)
-          :
-          ( <React.Fragment>
-                
-              <SignInForm onSignIn ={this.props.onSignIn}/>
-              <hr className="my-4"></hr>
-              <div className="text-center"> 
-                <button type="button" className="btn btn-link"
-                  onClick={this.setFormType.bind(this,true)}
-                >Go To Login</button>
-              </div>
-            </React.Fragment>)
-        }
-      </div>
-    )
+      <FormSwitchWrapper>
+        {this.state.type ? (
+          <React.Fragment>
+            <LoginForm onLogIn={this.props.onLogIn} />
+
+            <SwitchWrapper className="text-center">
+              <Link onClick={this.setFormType.bind(this, false)}>
+                Not registred yet?
+              </Link>
+            </SwitchWrapper>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <SignInForm onSignIn={this.props.onSignIn} />
+            <SwitchWrapper className="text-center">
+              <Link onClick={this.setFormType.bind(this, true)}>
+                Go back to login.
+              </Link>
+            </SwitchWrapper>
+          </React.Fragment>
+        )}
+      </FormSwitchWrapper>
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  return{
-    
-  }
-}
+const mapStateToProps = state => {
+  return {};
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    onSignIn(payload){
+    onSignIn(payload) {
       dispatch(signIn(payload));
     },
-    onLogIn(payload){
+    onLogIn(payload) {
       dispatch(logIn(payload));
-    },
-  }
-  
-}
+    }
+  };
+};
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(FormSwitch)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormSwitch);
