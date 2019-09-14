@@ -1,20 +1,22 @@
 {
-  "name": "client",
+  "name": "super-shopping-list-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
     "axios": "^0.18.0",
     "bootswatch": "^4.3.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-loading": "^2.0.3",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
+    "react-scripts": "3.0.1",
+    "react-styled-flexboxgrid": "^3.1.0",
     "react-transition-group": "^2.6.1",
     "reactstrap": "^7.1.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "styled-components": "^4.3.2",
     "uuid": "^3.3.2"
   },
   "scripts": {
@@ -38,5 +40,15 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "prettier": "^1.18.2"
+  }
 }
