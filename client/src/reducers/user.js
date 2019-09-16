@@ -3,7 +3,7 @@ import {  LOAD_USER, UPDATE_SHOPPINGLISTS, LOGOUT_SUCCESS } from '../actions/typ
 
 const initialState = {
   name:'',
-  shopping_lists:[],
+  shoppingLists:[],
   _id:'',
   username:'',
   register_date:Date,
@@ -20,13 +20,13 @@ export default (state = initialState, { type, payload }) => {
     case UPDATE_SHOPPINGLISTS:    
       return{
         ...state,
-        shopping_lists:[...payload.shopping_lists]
+        shoppingLists:[...payload.shoppingLists]
       }
     case LOGOUT_SUCCESS:
       return{
         ...state, 
         name:'',
-        shopping_lists:[],
+        shoppingLists:[],
         _id:'',
         username:'',
         register_date:Date,
