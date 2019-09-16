@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Heading from './Heading';
-import Button from './Button';
+import { Button } from './Buttons';
 import CustomInput from './form/CustomInput';
 
 const FormHeader = styled.div`
@@ -33,7 +33,7 @@ export class SignInForm extends Component {
     password: ''
   };
 
-  onChange = evt => {
+  onInputChange = evt => {
     this.setState({ [evt.target.name]: evt.target.value });
   };
 
@@ -46,7 +46,7 @@ export class SignInForm extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <FormHeader>
-          <Heading text="Register"></Heading>
+          <Heading text="Register" fontSize={3.6}></Heading>
         </FormHeader>
         <FormBody>
           <FormGroup>
@@ -77,7 +77,9 @@ export class SignInForm extends Component {
             />
           </FormGroup>
           <ButtonWrapper>
-            <Button type="submit" color="accent" text="register"></Button>
+            <Button type="submit" color="accent">
+              Register
+            </Button>
           </ButtonWrapper>
         </FormBody>
       </form>

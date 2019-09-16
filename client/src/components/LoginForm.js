@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Heading from './Heading';
-import Button from './Button';
+import { Button } from './Buttons';
 import CustomInput from './form/CustomInput';
 import CustomCheckbox from './form/CustomCheckbox';
 
@@ -49,7 +49,7 @@ export class LoginForm extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <FormHeader>
-          <Heading text={'login'}></Heading>
+          <Heading text={'login'} fontSize={3.6}></Heading>
         </FormHeader>
         <FormBody>
           <FormGroup>
@@ -78,7 +78,9 @@ export class LoginForm extends Component {
             />
           </FormGroup>
           <ButtonWrapper>
-            <Button type="submit" color="accent" text="Login"></Button>
+            <Button type="submit" color="accent">
+              Login
+            </Button>
           </ButtonWrapper>
         </FormBody>
       </form>
