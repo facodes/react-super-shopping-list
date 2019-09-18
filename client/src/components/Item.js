@@ -128,13 +128,14 @@ const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
 				<Button  
 					color="primary" 
 					size="sm"
-					onClick = {()=> onRemoveItem(item._id)}
+					onClick = {() => onRemoveItem(item._id)}
 				>
 					Delete
 				</Button>
 				<Button  
 					color="dark" 
 					size="sm"
+					onClick = {() => window.toggleItemModal('update', item)}
 				>
 					edit
 				</Button>

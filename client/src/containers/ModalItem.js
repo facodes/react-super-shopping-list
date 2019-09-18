@@ -25,8 +25,8 @@ const Modal = styled.div`
   opacity: ${props => props.isOpen ?  1 :  0};
   transition: ${props =>
     props.isOpen ?
-     `opacity .3s  ease-in-out`
-    :`opacity .3s  ease-in-out, transform 0s 0.3s`
+     `opacity .15s  ease-in`
+    :`opacity .15s  ease-in, transform 0s .15s`
   };
 
 `
@@ -81,18 +81,49 @@ const QuantityInput = styled.input`
 `
 
  class ModalItem extends Component {
-  state = {
-    modal: false,
-    name: '',
-    price:0,
-    quantity: 1,
-  };
 
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
-  };
+ 	constructor(){
+ 		super();
+ 		this.state = {
+	    modal: false,
+	    update:false,
+	    name:'',
+	    price:'',
+	    quantity:1,
+	  }
+	  window.toggleItemModal = this.toggle.bind(this);
+ 	}
+ 
+
+ toggle = (mode, payload) => {
+ 		if (mode === 'close'){
+ 			this.setState({
+ 				modal: !this.state.modal
+ 			})
+
+ 			setTimeout(()=>{
+ 				this.setState({
+ 					update: false,
+ 					name:'',
+ 					price:'',
+ 					quantity:1
+ 				})
+ 			}, 300)
+
+ 		}
+ 		else if (mode === 'open'){
+ 			this.setState({
+ 				modal: !this.state.modal
+ 			})
+ 		}
+ 		else if (mode === 'update'){
+ 			this.setState({
+ 				modal: !this.state.modal,
+ 				update: true,
+ 				...payload,
+ 			})
+ 		}
+   };
 
   onInputChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -107,42 +138,40 @@ const QuantityInput = styled.input`
     }else if ( e === 'add'){
       this.setState({ quantity: this.state.quantity + 1 });
     }else{
-    	if (e.target.value !== ''){
-	      this.setState({quantity: parseInt(e.target.value)});  
-    	}else{
-    		this.setState({quantity: e.target.value});
-    	}
+    	this.setState({quantity: e.target.value});
     }
   }
 
   onSubmit = e => {
     e.preventDefault();
-    if ( this.state.name && this.state.name.toString().trim() !== ''){
-      this.props.onAddNewItem(this.state.name);
-      this.setState({name:'', price:0, quantity:1 });
-      e.target.reset();
-    }else{
-      return
-    }
-
+    if (this.state.update)
+    	console.log (`update ${this.state._id} with the values ${this.state.name}, ${this.state.price}, ${this.state.quantity}`);
+    else
+    	this.props.onAddNewItem(this.state.name);
+    e.target.reset();
     // Closing the modal
-    this.toggle();
+    this.toggle('close');
   };
 
   render() {
     return (
       <div>
           <IconButton 
-          onClick={this.toggle}
+          onClick={()=> this.toggle('open')}
           icon="plus"
           bg="primary"
         />
         <Modal isOpen={this.state.modal} toggle={this.toggle} centered>
           <ModalHeader toggle={this.toggle}>
             <Heading fontSize={2.4}>
-              {`Add to ${this.props.shoppingList.name}`}
+              { 
+              	!this.state.update ? 
+              	`Add to ${this.props.shoppingList.name}`
+              	: 
+              	`Update item`
+              }
             </Heading>   
-            <IconButton icon="times" size="2x" onClick={this.toggle}/>
+            <IconButton icon="times" size="2x" onClick={() => this.toggle('close')}/>
           </ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
@@ -151,6 +180,7 @@ const QuantityInput = styled.input`
                   label="name"
                   type="text"
                   name="name"
+                  value={this.state.name.toString()}
                   onChange={this.onInputChange}
                   required
                 />
@@ -160,6 +190,7 @@ const QuantityInput = styled.input`
                   label="price"
                   type="number"
                   name="price"
+                  value={this.state.price ? this.state.price : ``}
                   onChange={this.onInputChange}
                 />
               </FormGroup>
@@ -172,8 +203,13 @@ const QuantityInput = styled.input`
                   <QuantityInput 
                     type="number" name="quantity"
                     value={this.state.quantity}
-                    onChange={this.onQuantityInputChange}
                     min="1" 
+                    onChange={this.onQuantityInputChange}
+                    onBlur={()=> {
+                    	if (this.state.quantity <= 0)
+                    		this.setState({quantity: 1})
+                    }}
+
                     />  
                   <IconButton 
                     icon="plus" size="2x" type="button"
@@ -184,7 +220,7 @@ const QuantityInput = styled.input`
                 </FormGroup> 
                 <FormGroup>
                   <Button type="submit" color="accent">
-                    add
+                    {this.state.update ? `save` : `add`}
                   </Button>
                 </FormGroup>
               </Form>

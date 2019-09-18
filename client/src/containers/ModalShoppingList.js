@@ -112,16 +112,11 @@ class ModalShoppingList extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
-    if (this.state.update){
+    if (this.state.update)
     	// Here we will handle update 
     	console.log(`Submit form with ${this.state.name}, ${this.state._id} , ${this.state.budget} `);
-
-    }else{
+    else
     	this.props.onAddNewShoppingList(this.state.name);
-    	this.setState({name:'', budget: 0});
-    }
-
     e.target.reset();
     this.toggle('close');
   }; 
