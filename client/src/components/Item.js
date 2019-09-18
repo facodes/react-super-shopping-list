@@ -128,6 +128,7 @@ const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
 				<Button  
 					color="primary" 
 					size="sm"
+					onClick = {()=> onRemoveItem(item._id)}
 				>
 					Delete
 				</Button>
