@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import styled from 'styled-components';
 
 import CustomCheckbox from './form/CustomCheckbox';
@@ -22,24 +22,36 @@ const ItemWrapper =  styled.div`
 
 const ItemName = styled.div`
 	display:flex;
-	
-	h3{
-		font-size: 2.4rem;
-		font-weight: var(--bold);
-		margin-left: .5rem;
-		text-transform: capitalize;
-		display:flex;
-		flex-flow: column nowrap;
-		line-height: 0.9;
-		span{
-			font-size: 1.8rem;
-			margin-top: 0.5em;
-			font-weight: var(--regular);
-			color: var(--color-grey);
-			text-transform:lowercase;
-		}
+`
+const ItemText = styled.h3`
+	font-size: 2.4rem;
+	font-weight: var(--bold);
+	margin-left: 1.2rem;
+	text-transform: capitalize;
+	display:flex;
+	flex-flow: column nowrap;
+	line-height: 0.9;
+	position: relative;
+
+	&::before{
+		content: '';
+		position: absolute;
+		top: 25%;
+		left: -10px; right: -10px;
+		height: 2px;
+		background: var(--color-secondary);
+		opacity: ${({checked}) => checked ? 1 : 0};
+		transition: opacity 0.3s ease-in-out;
+	}
+	span{
+		font-size: 1.8rem;
+		margin-top: 0.5em;
+		font-weight: var(--regular);
+		color: var(--color-grey);
+		text-transform:lowercase;
 	}
 `
+
 
 const PriceList = styled.ul`
 	display: flex;
@@ -83,14 +95,23 @@ const OptionsButton = styled.div `
 
 const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
 	const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+	const [checked, setChecked] = useState(false);
+
+	useEffect(() =>{
+		setChecked(item.done);
+	}, [item.done])
+
   return (
 		<Wrapper>
 			<ItemWrapper>
 				<ItemName>
-					<CustomCheckbox checked={item.done}/>
-					<h3>{item.name} 
+					<CustomCheckbox checked={checked} onChange={() => { 
+						setChecked(!checked); onToggleTodoDone(item._id)}}
+					/>
+					<ItemText checked={checked}>
+						{item.name} 
 						<span>x{item.quantity}</span>
-					</h3>
+					</ItemText>
 				</ItemName>
 				<PriceList>
 					<PriceItem>
