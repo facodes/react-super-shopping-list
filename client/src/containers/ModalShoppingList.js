@@ -31,7 +31,7 @@ const Modal = styled.div`
 
 `
 const ModalHeader = styled.div`
-  width:100%;
+  width: 100%;
   padding: 3.125em 3rem;
   background: var(--color-dark);
   display: flex;
@@ -59,23 +59,51 @@ const FormGroup = styled.div`
 
 class ModalShoppingList extends Component {
 
+	constructor(){
+		super();
+	 	this.state = {
+	    modal: false,
+	    name: '',
+	    budget: '',
+	    heading: '',
+	    update: false,
+	  };
 
-  
+	  window.toggleShoppingListModal = this.toggle.bind(this);
+	}
 
-  state = {
-    modal: false,
-    name: '',
-    budget: 0
-  };
+  toggle = (mode, payload) => {
+		if (mode === 'close'){
+			this.setState({
+				modal: !this.state.modal
+			});
 
-  componentDidMount(){
-    
-  }
+			setTimeout(()=>{
+				this.setState({
+					update: false,
+					heading: '',
+					name: '',
+					budget:'',
+				});
+			}, 300)
 
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
+		}
+		else if (mode === 'open'){
+			this.setState({
+				modal: !this.state.modal,
+				heading: 'Add a new List',
+				name: '',
+			});
+
+		}
+		else if (mode === 'update'){
+			this.setState({
+				modal: !this.state.modal,
+				heading: `${payload.name}`,
+				update: true,
+				...payload // spreading budget and name properties
+			});
+		}
   };
 
   onInputChange = e => {
@@ -84,30 +112,33 @@ class ModalShoppingList extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    if (this.state.name && this.state.name.toString().trim() !== ''){
-      this.props.onAddNewShoppingList(this.state.name);
-      this.setState({name:'', budget:0});
-      e.target.reset();
+
+    if (this.state.update){
+    	// Here we will handle update 
+    	console.log(`Submit form with ${this.state.name}, ${this.state._id} , ${this.state.budget} `);
+
     }else{
-      return
+    	this.props.onAddNewShoppingList(this.state.name);
+    	this.setState({name:'', budget: 0});
     }
-    // Close modal
-    this.toggle();
+
+    e.target.reset();
+    this.toggle('close');
   }; 
   render() {
     return (
       <>
         <IconButton 
-          onClick={this.toggle}
+          onClick={() => this.toggle('open')}
           icon="plus"
           bg="primary"
         />
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             <Heading  fontSize={2.4}>
-              Add A New List  
+              {this.state.heading.toString()}
             </Heading> 
-            <IconButton icon="times" size="2x" onClick={this.toggle}/>
+            <IconButton icon="times" size="2x" onClick={() => this.toggle('close')}/>
           </ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
@@ -116,6 +147,7 @@ class ModalShoppingList extends Component {
                   label="name"
                   type="text"
                   name="name"
+                  value={this.state.name.toString()}
                   onChange={this.onInputChange}
                   required
                 />
@@ -125,12 +157,13 @@ class ModalShoppingList extends Component {
                   label="budget"
                   type="number"
                   name="budget"
+                  value={this.state.budget ? this.state.budget : ``}
                   onChange={this.onInputChange}
                 />
               </FormGroup>   
               <FormGroup>
                 <Button type="submit" color="accent">
-                   add
+                  {this.state.update ? `save` : `add`}
                 </Button>
               </FormGroup>
             </Form>
