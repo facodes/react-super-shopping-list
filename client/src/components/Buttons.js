@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactLoading from 'react-loading';
 
 const StyledButton = styled.button`
   color: ${ props =>
@@ -16,8 +18,10 @@ const StyledButton = styled.button`
   line-height: 1;
   font-weight: var(--bold);
   text-transform: uppercase;
+  display: flex;
+  justify-content: center;
   min-width: ${({size}) => {
-  	if (size == 'sm')
+  	if (size === 'sm')
   		return 0
   	else
   		return `14rem`
@@ -35,8 +39,15 @@ const StyledButton = styled.button`
   font-size: ${props => (props.fontSize ? `${props.fontSize}rem` : `2rem`)};
 `;
 
-export const Button = ({...props}) => {
-	return <StyledButton {...props}>{props.children}</StyledButton>
+const ConnectedButton = ({spinner, isLoading,  ...props}) => {
+	return ( 
+		<StyledButton {...props}>
+			{isLoading && spinner ?  
+				<ReactLoading type="spin" color="white" height={20} width={20}/>
+				: props.children 
+			}
+		</StyledButton>
+	)
 }
 
 
@@ -66,3 +77,9 @@ export const IconButton = ({icon, bg, size, onClick, style, ...props}) => {
     </StyledIconButton>
   )
 }
+
+const mapStateToProps = state => ({
+  isLoading: state.control.isLoading,
+});
+
+export const Button = connect(mapStateToProps)(ConnectedButton);
