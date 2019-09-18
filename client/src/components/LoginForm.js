@@ -78,7 +78,7 @@ export class LoginForm extends Component {
             />
           </FormGroup>
           <ButtonWrapper>
-            <Button type="submit" color="accent">
+            <Button type="submit" color="accent" spinner>
               Login
             </Button>
           </ButtonWrapper>

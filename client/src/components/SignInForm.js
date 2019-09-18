@@ -79,7 +79,7 @@ export class SignInForm extends Component {
             />
           </FormGroup>
           <ButtonWrapper>
-            <Button type="submit" color="accent">
+            <Button type="submit" color="accent" spinner>
               Register
             </Button>
           </ButtonWrapper>
