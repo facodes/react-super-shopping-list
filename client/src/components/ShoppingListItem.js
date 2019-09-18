@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React , { useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 // Components
@@ -29,17 +29,47 @@ const ItemName = styled.p`
 	justify-content: space-between;
 `
 const ListProgress = styled.div`
-	 display:flex;
+	display: flex;
+	align-items: center;
+	margin: 1rem 0;
 `
+
+const ItemBar = styled.div`
+	height: 8px;
+	width: 14rem;
+	border-radius: 8px;
+	background: var(--color-black-lg);
+	margin-left: 3rem;
+	position: relative;
+
+	&::after{
+		content: '';
+		position:absolute;
+		top: 0;
+		left: 0;
+		height: 8px;
+		border-radius: 8px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    width: ${props => `${props.percentage}%`};
+    transition: width .15s ease-in;
+	}
+
+	&::before{
+		content: ${props => `'${Math.trunc(props.percentage)}%'`};
+		position: absolute;
+		top: -2.2rem;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 1.4rem;
+		color: var(--color-grey);
+	}
+`
+
 const ItemCount = styled.span`
 	font-size:1.8rem;
 	color:var(--color-primary);
 
 `
-const ItemBar = styled.div`
-	
-`
-
 const Budget = styled.span`
 	font-size: 1.8rem;
 	color: var(--color-grey);
@@ -70,9 +100,16 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
 
 	const itemsCount = shoppingList.items.length;
 	const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+	const [completedItemsPercentage, setCompletedItemsPercentage] = useState(0);
 
-
-	// const update ;
+	useEffect(() => {
+		const totalItems = shoppingList.items.length;
+		if (totalItems){
+			const completedItems = shoppingList.items.filter((item) => item.done).length;
+			const percentage = completedItems / totalItems * 100;
+			setCompletedItemsPercentage (percentage);
+		}
+	},[shoppingList.items]);
 
   return (
    	<Wrapper >
@@ -84,6 +121,7 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
 							itemsCount !== 1 ? (`${itemsCount} items`) : (`${itemsCount} item`) 
 						} 
 					</ItemCount>
+					{itemsCount  ? <ItemBar percentage={completedItemsPercentage} /> : ''}
         </ListProgress>
         <Budget>
 					budget: 
