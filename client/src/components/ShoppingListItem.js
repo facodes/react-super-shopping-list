@@ -5,11 +5,10 @@ import styled from 'styled-components';
 import { Button, IconButton} from  './Buttons';
 
 const Wrapper = styled.div`
-	position:relative;
-	overflow:hidden;
+	position: relative;
+	overflow: hidden;
 	padding: 2rem 3rem; 
-	/* height: 12.5rem; */
-	display:flex;
+	display: flex;
 	align-items: flex-start;
 	&:not(:last-child){
 		border-bottom: 2px solid var(--color-black-lg);
@@ -95,16 +94,17 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
 				</Budget>
       </ItemWrapper>
 			<OptionsWrapper open={isOptionsOpen}>
-				<Button  
-					color="primary" 
-					size="sm"
+				<Button  color="primary" size="sm"
 					onClick={() => onRemoveShoppingList(shoppingList._id)}
 				>
 					Delete
 				</Button>
-				<Button  
-					color="dark" 
-					size="sm"
+				<Button  color="dark" size="sm"
+				  onClick={() => window.toggleShoppingListModal('update',{ 
+				  	name: shoppingList.name,
+				  	budget: shoppingList.budget,
+				  	_id: shoppingList._id
+				  })}
 				>
 					edit
 				</Button>
