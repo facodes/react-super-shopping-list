@@ -7,7 +7,7 @@ import CustomInput from './form/CustomInput';
 
 const FormHeader = styled.div`
   padding: 3.125em 2em 1em 2em;
-  border-bottom: 4px solid var(--color-black-lg);
+  border-bottom: 2px solid var(--color-black-lg);
 `;
 
 const FormBody = styled.div`
@@ -46,7 +46,9 @@ export class SignInForm extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <FormHeader>
-          <Heading text="Register" fontSize={3.6}></Heading>
+          <Heading fontSize={3.6}>
+          	register
+          </Heading>
         </FormHeader>
         <FormBody>
           <FormGroup>

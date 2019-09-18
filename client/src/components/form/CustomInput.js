@@ -32,10 +32,11 @@ const Label = styled.label`
   position: absolute;
   padding: 0.2em;
   font-size: 2rem;
-  top: -4px;
+  top: 0;
   left: 0;
   transition: all 0.3s ease-in-out;
   pointer-events: none;
+  
 `;
 
 const InputBorder = styled.div`

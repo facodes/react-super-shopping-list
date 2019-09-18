@@ -1,38 +1,136 @@
-import React, { Component } from 'react'
-import { Button,} from 'reactstrap'
+import React, { useState } from 'react'
+import styled from 'styled-components';
 
-export class Item extends Component {
+import CustomCheckbox from './form/CustomCheckbox';
+import { IconButton, Button } from './Buttons';
 
-  getStyle = (item) => {
-    return {
-      textDecoration: item.done ? 'line-through' : 'none'
-    }
-  }
+const Wrapper = styled.div`
+	position:relative;
+	overflow:hidden;
+	display:flex;
+	align-items:flex-start;
+	height: 12.5rem;
+	padding: 2.1em 3rem;
+	&:not(:last-child){
+		border-bottom: 2px solid var(--color-black-lg);
+	}	
+`
 
-  render() {
-    const { item } = this.props;
-    return (
-      <div className="d-flex align-items-center">  
-        <input 
-          className="mr-2"
-          name={item.name}
-          type="checkbox"  
-          id="checker" 
-          checked={item.done}
-          onChange={()=>{;}}
-          onClick={this.props.onToggleTodoDone.bind(this, item._id)}
-        />
-        <h5  style={this.getStyle(item)} className="mb-0">{item.name}</h5>
-        <Button
-          className="ml-auto" size="sm"
-          color="danger"
-          onClick={this.props.onRemoveItem.bind(this, item._id)}
-        >
-          <i className="fas fa-times"/>
-        </Button>
-      </div>
-    )
-  }
+const ItemWrapper =  styled.div`
+	width:100%;
+`
+
+const ItemName = styled.div`
+	display:flex;
+	
+	h3{
+		font-size: 2.4rem;
+		font-weight: var(--bold);
+		margin-left: .5rem;
+		text-transform: capitalize;
+		display:flex;
+		flex-flow: column nowrap;
+		line-height: 0.9;
+		span{
+			font-size: 1.8rem;
+			margin-top: 0.5em;
+			font-weight: var(--regular);
+			color: var(--color-grey);
+			text-transform:lowercase;
+		}
+	}
+`
+
+const PriceList = styled.ul`
+	display: flex;
+	list-style: none;
+	margin-top: 1em;
+	
+`
+
+const PriceItem = styled.li`
+	font-size: 1.8rem;
+	color: var(--color-grey);
+	&:not(:first-child){
+		margin-left: 2rem;
+	}
+`
+
+const PriceSpan = styled.span`
+	margin-left: 0.5rem;
+	color: ${props => props.color ? `var(--color-${props.color})` : `var(--color-light)` };
+`
+
+const OptionsWrapper = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: var(--color-primary);
+	transition: all .3s ease-in-out;
+	opacity: ${props => props.open ? 1 : 0 };
+	transform: ${props => props.open ? `translateY(0)` : `translateY(-100%)` };
+	display:flex;
+	justify-content: center;
+	align-items: center;
+`
+
+const OptionsButton = styled.div `
+	z-index: 1;
+	margin-right: .5rem;
+`
+
+const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
+	const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  return (
+		<Wrapper>
+			<ItemWrapper>
+				<ItemName>
+					<CustomCheckbox checked={item.done}/>
+					<h3>{item.name} 
+						<span>x{item.quantity}</span>
+					</h3>
+				</ItemName>
+				<PriceList>
+					<PriceItem>
+						price: 
+						<PriceSpan>{item.price}$</PriceSpan>
+					</PriceItem>
+					<PriceItem>
+						total:
+						<PriceSpan color="accent">{item.price * item.quantity}$</PriceSpan>
+					</PriceItem>
+				</PriceList>
+			</ItemWrapper>
+			<OptionsWrapper open={isOptionsOpen}>
+				<Button  
+					color="primary" 
+					size="sm"
+				>
+					Delete
+				</Button>
+				<Button  
+					color="dark" 
+					size="sm"
+				>
+					edit
+				</Button>
+			</OptionsWrapper>
+      <OptionsButton 
+      	onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+      >
+      	{
+					isOptionsOpen ?
+					<IconButton 
+						icon="times"
+					/>
+					:<IconButton icon="bars"/>
+				}
+			</OptionsButton>
+		</Wrapper>
+  )
+  
 }
 
 

@@ -1,39 +1,34 @@
-import React, { Component } from 'react'
-import { ListGroup, ListGroupItem} from 'reactstrap'
-import {TransitionGroup , CSSTransition} from 'react-transition-group'
-
+import React  from 'react'
+import styled from 'styled-components';
 
 // components
 import Item from './Item';
 
-export class ItemList extends Component {
-  render() {    
-    const { name , items } = this.props.shoppingList;
-    return (
-      <React.Fragment>
-        <h5 >{`${name} items`}</h5>
-        <ListGroup>
-          <TransitionGroup>
-            {
-              items.map((item,index) => {
-                return (
-                  <CSSTransition key={index} timeout={250} classNames='fade'>
-                    <ListGroupItem className="mb-2">
-                      <Item
-                        item={item}
-                        onRemoveItem={this.props.onRemoveItem}
-                        onToggleTodoDone = {this.props.onToggleTodoDone}
-                      />
-                    </ListGroupItem>
-                  </CSSTransition>)
-              })
-            }
-          </TransitionGroup>
-        </ListGroup>
-      </React.Fragment>
+const ListWrapper = styled.div`
+  transform: ${({isShoppingListSelected}) => !isShoppingListSelected ? 
+    `translateX(100%)` : `translateX(0)`  
+  };
+  transition: transform 0.3s 1s ease-in-out;
+`
 
-    )
-  }
+const ItemList = ({ shoppingList, onRemoveItem, onToggleTodoDone, isShoppingListSelected}) => {
+  const { items } = shoppingList ;
+  return (
+    <ListWrapper isShoppingListSelected={isShoppingListSelected}>
+      {
+       items.map((item, index) => {
+          return (
+            <Item
+              key={index}
+              item={item}
+              onRemoveItem={onRemoveItem}
+              onToggleTodoDone = {onToggleTodoDone}
+            />   
+          )
+        })
+      }
+    </ListWrapper>
+  )
 }
 
 export default ItemList

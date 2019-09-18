@@ -6,11 +6,10 @@ const Text = styled.h2`
   font-size: ${props => `${props.fontSize}rem`};
   font-weight: var(--bold);
   text-transform: capitalize;
-  line-height:1;
 `;
 
-function Heading({ text, fontSize, style }) {
-  return <Text fontSize={fontSize} style={style}> {text} </Text>;
+function Heading({ fontSize, style, ...props }) {
+  return <Text fontSize={fontSize} style={style}> {props.children} </Text>;
 }
 
 export default Heading;

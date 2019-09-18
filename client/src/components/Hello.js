@@ -17,13 +17,13 @@ const Username = styled.h1`
   color: var(--color-primary);
   font-weight: var(--regular);
   text-transform: capitalize;
-  line-height: 0;
+  line-height: .3;
 `;
 
 function Hello({ username }) {
   return (
     <HelloWrapper>
-      <HelloText>Hello,</HelloText>
+      <HelloText>Hello</HelloText>
       <Username>{username || 'welcome'}</Username>
     </HelloWrapper>
   );

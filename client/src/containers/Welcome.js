@@ -30,7 +30,7 @@ export class Welcome extends Component {
       <>
         <Grid>
           <Row>
-            <Col xs={11}>
+            <Col xs={12}>
               <WelcomeText>
                 A shopping list app, that helps you to get track off all your
                 needs

@@ -35,8 +35,8 @@ const StyledIconButton = styled.button`
 
   ${({bg}) =>
     bg ? ` 
-      width: 4.5rem;
-      height: 4.5rem;
+      width: 3.5rem;
+      height: 3.5rem;
       border-radius: 50%;    
     ` : ``
   }
@@ -46,9 +46,9 @@ const StyledIconButton = styled.button`
   };
 `
 
-export const IconButton = ({icon, bg, size, onClick}) => {
+export const IconButton = ({icon, bg, size, onClick, style, ...props}) => {
   return (
-    <StyledIconButton bg={bg} onClick={ () => { if(onClick) onClick()} }  >
+    <StyledIconButton bg={bg} onClick={ () => { if(onClick) onClick()}} style={style} {...props} >
       <FontAwesomeIcon icon={icon} size={size || '2x'}/>
     </StyledIconButton>
   )

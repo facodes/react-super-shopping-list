@@ -6,6 +6,7 @@ import {
   faCheck,
   faPlus,
   faChevronLeft,
+  faMinus
  } from '@fortawesome/free-solid-svg-icons';
 
 // components
@@ -26,6 +27,7 @@ library.add(
  faCheck,
  faPlus, 
  faChevronLeft,
+ faMinus
 );
 
 const shoppingCartContainer = {
@@ -45,9 +47,7 @@ class App extends Component {
     const { isUserLogged, isAppInitialized } = this.props.control;
     return (
       <>
-        <NavBar/>
-        <DashBoard />
-        {/* {isAppInitialized ? (
+        {isAppInitialized ? (
           <div>
             <NavBar/>
             {isUserLogged ? <DashBoard /> : <Welcome />}
@@ -56,9 +56,9 @@ class App extends Component {
           <div style={shoppingCartContainer}>
             <h1>Loading...</h1>
           </div>
-        )} */}
-      </>
-    );
+        )}
+      </> 
+    )
   }
 }
 

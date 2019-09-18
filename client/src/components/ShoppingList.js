@@ -1,44 +1,33 @@
-import React, { Component } from 'react'
-import { Button } from 'reactstrap'
+import React  from 'react';
+import styled from 'styled-components';
 
-export class ShoppingList extends Component {
+// Components
+import ShoppingListItem from './ShoppingListItem';
 
-  render() {
-    const { shoppingLists } = this.props;
-    return (
-      <div> 
-        <h5 className="mb-4" >{`These are Your Shopping Lists`}</h5>
-        <section className="row">
-          {
-            shoppingLists.map( (shoppingList , index) => { 
-              const itemDoneCount = shoppingList.items.filter(item => (item.done)).length              
-              const totalItems = shoppingList.items.length;
-              return(
-                <div className="col-md-6 col-sm-12 col-xs-12" key={index}>
-                  <div className="card border-success mb-4" style={{cursor:'pointer'}}>
-                    <div className="card-body" 
-                      onClick={this.props.onSelectShoppingList.bind(this,shoppingList)}
-                    >
-                      <h4 className="card-title">{shoppingList.name}</h4>
-                    </div>
-                    <div className="card-footer bg-transparent">
-                      { `${itemDoneCount}/${totalItems}`}
-                      <Button close aria-label="Cancel"
-                        onClick={this.props.onRemoveShoppingList.bind(this,shoppingList._id)}
-                      >
-                        <span aria-hidden>&times;</span>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            )
-          }
-        </section>
-        
-      </div>
-    )
-  }
+const ListWrapper = styled.div`
+  transform: ${({isShoppingListSelected}) => isShoppingListSelected ? 
+    `translateX(100%)` : `translateX(0)`  
+  };
+  transition: transform 0.3s ease-in-out;
+`
+const ShoppingList = (
+  { shoppingLists , onSelectShoppingList, onRemoveShoppingList , isShoppingListSelected}) => {
+  return (
+    <ListWrapper isShoppingListSelected={isShoppingListSelected}> 
+      {
+        shoppingLists.map((shoppingList) => { 
+          return(
+            <ShoppingListItem
+              key={shoppingList._id} 
+              shoppingList={shoppingList}
+              onSelectShoppingList={onSelectShoppingList}
+              onRemoveShoppingList={onRemoveShoppingList}
+            />
+          )}
+        )
+      }
+    </ListWrapper>
+  )
 }
 
 export default ShoppingList
