@@ -75,7 +75,8 @@ const Budget = styled.span`
 	color: var(--color-grey);
 	
 	span {
-		color: var(--color-accent);
+		margin-left: 1rem;
+		color: ${props => props.budget ? `var(--color-accent)` : `var(--color-light)`};
 	}
 `
 const OptionsWrapper = styled.div`
@@ -123,10 +124,10 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
 					</ItemCount>
 					{itemsCount  ? <ItemBar percentage={completedItemsPercentage} /> : ''}
         </ListProgress>
-        <Budget>
+        <Budget budget={shoppingList.budget}>
 					budget: 
 					<span>{
-						shoppingList.budget ? ` ${shoppingList.budget}$` : ' not assigned'
+						shoppingList.budget ? `${shoppingList.budget}$` : 'not assigned'
 					}
 					</span>
 				</Budget>
