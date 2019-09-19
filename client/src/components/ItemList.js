@@ -1,20 +1,15 @@
 import React  from 'react'
-import styled from 'styled-components';
+
+import { SlideRightAnimation } from '../utils/animations';
 
 // components
 import Item from './Item';
 
-const ListWrapper = styled.div`
-  transform: ${({isShoppingListSelected}) => !isShoppingListSelected ? 
-    `translateX(100%)` : `translateX(0)`  
-  };
-  transition: transform 0.3s 1s ease-in-out;
-`
 
 const ItemList = ({ shoppingList, onRemoveItem, onToggleTodoDone, isShoppingListSelected}) => {
   const { items } = shoppingList ;
   return (
-    <ListWrapper isShoppingListSelected={isShoppingListSelected}>
+    <SlideRightAnimation isShoppingListSelected={isShoppingListSelected}>
       {
        items.map((item, index) => {
           return (
@@ -27,7 +22,7 @@ const ItemList = ({ shoppingList, onRemoveItem, onToggleTodoDone, isShoppingList
           )
         })
       }
-    </ListWrapper>
+    </SlideRightAnimation>
   )
 }
 
