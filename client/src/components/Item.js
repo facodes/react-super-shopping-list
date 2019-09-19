@@ -108,7 +108,9 @@ const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
 					<CustomCheckbox checked={checked} onChange={() => { 
 						setChecked(!checked); onToggleTodoDone(item._id)}}
 					/>
-					<ItemText checked={checked}>
+					<ItemText checked={checked}
+						onClick={() => { setChecked(!checked); onToggleTodoDone(item._id)}}
+					>
 						{item.name} 
 						<span>x{item.quantity}</span>
 					</ItemText>
@@ -125,16 +127,12 @@ const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
 				</PriceList>
 			</ItemWrapper>
 			<OptionsWrapper open={isOptionsOpen}>
-				<Button  
-					color="primary" 
-					size="sm"
+				<Button  color="primary" size="sm" spinner
 					onClick = {() => onRemoveItem(item._id)}
 				>
 					Delete
 				</Button>
-				<Button  
-					color="dark" 
-					size="sm"
+				<Button  color="dark" size="sm"
 					onClick = {() => window.toggleItemModal('update', item)}
 				>
 					edit

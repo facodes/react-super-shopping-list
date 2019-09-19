@@ -133,7 +133,7 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
 				</Budget>
       </ItemWrapper>
 			<OptionsWrapper open={isOptionsOpen}>
-				<Button  color="primary" size="sm"
+				<Button  color="primary" size="sm" spinner
 					onClick={() => onRemoveShoppingList(shoppingList._id)}
 				>
 					Delete
