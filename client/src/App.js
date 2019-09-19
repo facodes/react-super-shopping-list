@@ -6,7 +6,9 @@ import {
   faCheck,
   faPlus,
   faChevronLeft,
-  faMinus
+  faMinus,
+  faDollarSign,
+  faEye,
  } from '@fortawesome/free-solid-svg-icons';
 
 // components
@@ -27,7 +29,9 @@ library.add(
  faCheck,
  faPlus, 
  faChevronLeft,
- faMinus
+ faMinus,
+ faDollarSign,
+ faEye,
 );
 
 const shoppingCartContainer = {
