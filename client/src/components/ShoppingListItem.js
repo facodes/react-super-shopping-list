@@ -96,7 +96,7 @@ const OptionsButton = styled.div `
 	z-index:1;
 	margin-right: .5rem;
 `
-const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingList}) => {
+const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingList, isLoading}) => {
 
 	const itemsCount = shoppingList.items.length;
 	const [isOptionsOpen, setIsOptionsOpen] = useState(false);
@@ -133,7 +133,11 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
       </ItemWrapper>
 			<OptionsWrapper open={isOptionsOpen}>
 				<Button  color="primary" size="sm" spinner
-					onClick={() => onRemoveShoppingList(shoppingList._id)}
+					onClick={() => {
+						if (isLoading)
+							return
+						onRemoveShoppingList(shoppingList._id);
+						}}
 				>
 					Delete
 				</Button>

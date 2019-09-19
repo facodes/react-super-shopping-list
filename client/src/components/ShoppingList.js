@@ -6,17 +6,16 @@ import { SlideRightAnimation } from '../utils/animations';
 import ShoppingListItem from './ShoppingListItem';
 
 
-const ShoppingList = ({ shoppingLists , onSelectShoppingList, onRemoveShoppingList , isShoppingListSelected}) => {
+const ShoppingList = ({ shoppingLists , ...props}) => {
   return (
-    <SlideRightAnimation isShoppingListSelected={isShoppingListSelected}> 
+    <SlideRightAnimation isShoppingListSelected={props.isShoppingListSelected}> 
       {
         shoppingLists.map((shoppingList) => { 
           return(
             <ShoppingListItem
               key={shoppingList._id} 
               shoppingList={shoppingList}
-              onSelectShoppingList={onSelectShoppingList}
-              onRemoveShoppingList={onRemoveShoppingList}
+              {...props}
             />
           )}
         )

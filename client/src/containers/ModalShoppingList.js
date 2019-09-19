@@ -78,6 +78,11 @@ class ModalShoppingList extends Component {
 	}
 
   toggle = (mode, payload) => {
+
+    if(this.props.isLoading){
+      return;
+    }
+
 		if (mode === 'close'){
 			this.setState({
 				modal: !this.state.modal
@@ -118,6 +123,11 @@ class ModalShoppingList extends Component {
   onSubmit = e => {
     e.preventDefault();
     e.persist();
+
+    if(this.props.isLoading){
+      return;
+    }
+
     if (this.state.update)
     	// Here we will handle update 
     	console.log(`Submit form with ${this.state.name}, ${this.state._id} , ${this.state.budget} `);
@@ -126,8 +136,7 @@ class ModalShoppingList extends Component {
     		.then(() => { 
     			e.target.reset();
     			this.toggle('close'); 
-    		});
-    
+        });
   }; 
   render() {
     return (
@@ -181,17 +190,14 @@ class ModalShoppingList extends Component {
 
 function mapStateToProps(state){
   return{
-    item:state.item
+    isLoading: state.control.isLoading,
   }
 }
 
 function mapDispatchToProps(dispatch){
   return{
-    onAddNewShoppingList(name){
-    	return new Promise ( async (resolve, reject) => {
-      	await dispatch(addNewShoppingList(name));
-      	resolve();
-    	})
+    async onAddNewShoppingList(name){
+        await dispatch(addNewShoppingList(name));
     }
   }
 
