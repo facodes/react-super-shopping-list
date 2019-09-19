@@ -51,7 +51,6 @@ const ItemBar = styled.div`
 		border-radius: 8px;
     background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
     width: ${props => `${props.percentage}%`};
-    transition: width .15s ease-in;
 	}
 
 	&::before{
