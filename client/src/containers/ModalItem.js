@@ -55,6 +55,11 @@ const FormGroup = styled.div`
   &:not(:last-child) {
     margin-bottom: 4rem;
   }
+
+  &:last-child{
+  	display: flex;
+  	justify-content: center;
+  }
 `;
 
 const QuantityInputWrapper = styled.div`
@@ -144,13 +149,17 @@ const QuantityInput = styled.input`
 
   onSubmit = e => {
     e.preventDefault();
+    e.persist();
     if (this.state.update)
     	console.log (`update ${this.state._id} with the values ${this.state.name}, ${this.state.price}, ${this.state.quantity}`);
     else
-    	this.props.onAddNewItem(this.state.name);
-    e.target.reset();
-    // Closing the modal
-    this.toggle('close');
+    	this.props.onAddNewItem(this.state.name)
+    		.then(() => {
+    			e.target.reset();
+    			// Closing the modal
+    			this.toggle('close');
+    		});
+    
   };
 
   render() {
@@ -219,7 +228,7 @@ const QuantityInput = styled.input`
                 </QuantityInputWrapper>
                 </FormGroup> 
                 <FormGroup>
-                  <Button type="submit" color="accent">
+                  <Button type="submit" color="accent" spinner>
                     {this.state.update ? `save` : `add`}
                   </Button>
                 </FormGroup>
@@ -240,7 +249,10 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   return{
     onAddNewItem(payload){
-      dispatch(addNewItem(payload))
+    	return new Promise(async (resolve, reject) => {
+      	await dispatch(addNewItem(payload));
+      	resolve();
+    	})
     }
   }
 } 

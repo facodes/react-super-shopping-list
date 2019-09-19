@@ -55,6 +55,11 @@ const FormGroup = styled.div`
   &:not(:last-child) {
     margin-bottom: 4rem;
   }
+
+  &:last-child{
+  	display: flex;
+  	justify-content: center;
+  }
 `;
 
 class ModalShoppingList extends Component {
@@ -112,13 +117,17 @@ class ModalShoppingList extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    e.persist();
     if (this.state.update)
     	// Here we will handle update 
     	console.log(`Submit form with ${this.state.name}, ${this.state._id} , ${this.state.budget} `);
     else
-    	this.props.onAddNewShoppingList(this.state.name);
-    e.target.reset();
-    this.toggle('close');
+    	this.props.onAddNewShoppingList(this.state.name)
+    		.then(() => { 
+    			e.target.reset();
+    			this.toggle('close'); 
+    		});
+    
   }; 
   render() {
     return (
@@ -157,7 +166,7 @@ class ModalShoppingList extends Component {
                 />
               </FormGroup>   
               <FormGroup>
-                <Button type="submit" color="accent">
+                <Button type="submit" color="accent" spinner>
                   {this.state.update ? `save` : `add`}
                 </Button>
               </FormGroup>
@@ -178,7 +187,10 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   return{
     onAddNewShoppingList(name){
-      dispatch(addNewShoppingList(name));
+    	return new Promise ( async (resolve, reject) => {
+      	await dispatch(addNewShoppingList(name));
+      	resolve();
+    	})
     }
   }
 
