@@ -57,11 +57,6 @@ const InputBorder = styled.div`
   background: var(--color-primary);
 `;
 
-const InputDesc = styled.span`
-	font-size: 1.2rem;
-	color: var(--color-grey);
-`
-
 function CustomInput({ label, placeholder, ...props }) {
 	const [inputType, setInputType] = useState(props.type);
 	if (props.type === 'password'){
@@ -96,7 +91,6 @@ function CustomInput({ label, placeholder, ...props }) {
 		      }
 		    </CustomInputWrapper>
 		    <InputBorder />
-		    {/* <InputDesc>You can add an estimated price</InputDesc> */}
 	  	</Container>
 	  );
 }
