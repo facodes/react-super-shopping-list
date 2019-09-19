@@ -3,8 +3,11 @@ import {
   URL
 } from '../API'
 
+import { setLoading } from './control'
+
 export const addNewShoppingList = (name) => {
    return async (dispatch, getState) => {
+      dispatch(setLoading(true));
       const res = await fetch(`${URL}/api/user/shopping` ,{
         method:'POST',
         body:JSON.stringify({name}),
@@ -15,11 +18,13 @@ export const addNewShoppingList = (name) => {
       })
       const data = await res.json();
       dispatch(updateShoppingLists(data.shopping_lists));
+      dispatch(setLoading(false));
    }
 } 
 
 export const removeShoppingList = id => {
   return async (dispatch, getState) => {
+    dispatch(setLoading(true));
     const res = await fetch(`${URL}/api/user/shopping` ,{
       method:'DELETE',
       body:JSON.stringify({id}),
@@ -30,6 +35,7 @@ export const removeShoppingList = id => {
     })
     const data = await res.json();
     dispatch(updateShoppingLists(data.shopping_lists));
+    dispatch(setLoading(false));
   }
 }
 

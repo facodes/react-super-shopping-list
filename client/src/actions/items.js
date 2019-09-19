@@ -3,9 +3,11 @@ import {
   URL
 } from '../API'
 
+import { setLoading } from './control'
+
 export const addNewItem  = name => {
   return async (dispatch, getState) => {
-
+    dispatch(setLoading(true));
     const shoppingList =  getState().control.shoppingListSelected;
     const res = await fetch(`${URL}/api/user/item` ,{
       method:'POST',
@@ -26,11 +28,13 @@ export const addNewItem  = name => {
         payload:{shopping_lists}
       })
     }
+    dispatch(setLoading(false));
   }
 }
 
 export const removeItem = itemID => {
   return async (dispatch, getState) => {
+    dispatch(setLoading(true));    
     const shoppingList =  getState().control.shoppingListSelected;
     const res = await fetch(`${URL}/api/user/item` ,{
       method:'DELETE',
@@ -51,6 +55,7 @@ export const removeItem = itemID => {
         payload:{shopping_lists}
       });
     }
+    dispatch(setLoading(false));
   }
 }
 

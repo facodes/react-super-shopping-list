@@ -4,7 +4,7 @@ import {
   LOGIN_SUCCESS,
 } from './types';
 
-import { setLoading } from './control'
+import { setLoading } from './control';
 import { showAlert } from './alert';
 
 
