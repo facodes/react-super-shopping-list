@@ -161,6 +161,7 @@ class ModalShoppingList extends Component {
                   label="budget"
                   type="number"
                   name="budget"
+                  icon="dollar-sign"
                   value={this.state.budget ? this.state.budget : ``}
                   onChange={this.onInputChange}
                 />

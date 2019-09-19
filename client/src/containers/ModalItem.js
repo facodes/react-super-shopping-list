@@ -199,6 +199,7 @@ const QuantityInput = styled.input`
                   label="price"
                   type="number"
                   name="price"
+                  icon={"dollar-sign"}
                   value={this.state.price ? this.state.price : ``}
                   onChange={this.onInputChange}
                 />
