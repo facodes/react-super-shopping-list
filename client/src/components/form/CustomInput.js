@@ -1,14 +1,21 @@
-import React from 'react';
+import React , { useState } from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+const Container = styled.div`
+	width: 100%;
+`
 
 const CustomInputWrapper = styled.div`
-  width: 100%;
-  position: relative;
+	position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 const Input = styled.input`
   color: var(--color-white);
   width: 100%;
+  
   background: transparent;
   padding: 0.2em;
   font-size: 2rem;
@@ -17,7 +24,7 @@ const Input = styled.input`
 
   &:not(:placeholder-shown) ~ label,
   &:focus ~ label {
-    top: 100%;
+    top: 120%;
     font-size: 1.4rem;
   }
 
@@ -26,11 +33,15 @@ const Input = styled.input`
     color: var(--color-accent);
     margin-left: 5px;
   }
+
+	flex-basis: ${({type}) => type === 'password' ? `90%` : `auto`};
+
 `;
 
 const Label = styled.label`
+
   position: absolute;
-  padding: 0.2em;
+  padding: 0 0.2em;
   font-size: 2rem;
   top: 0;
   left: 0;
@@ -46,14 +57,48 @@ const InputBorder = styled.div`
   background: var(--color-primary);
 `;
 
+const InputDesc = styled.span`
+	font-size: 1.2rem;
+	color: var(--color-grey);
+`
+
 function CustomInput({ label, placeholder, ...props }) {
-  return (
-    <CustomInputWrapper>
-      <Input placeholder={placeholder || ' '} {...props} />
-      <Label>{label}</Label>
-      <InputBorder />
-    </CustomInputWrapper>
-  );
+	const [inputType, setInputType] = useState(props.type);
+	if (props.type === 'password'){
+		return(
+	  	<Container>
+		    <CustomInputWrapper>
+		      <Input type={inputType} placeholder={placeholder || ' '} {...props} />
+		      <Label>{label}</Label>
+		      <FontAwesomeIcon icon="eye" size="3x" style={{ padding: '0.2em'}} 
+						onClick={() => {
+							if (inputType === 'password')
+								setInputType('text');
+							else
+								setInputType('password');
+						}}
+		      />
+		    </CustomInputWrapper>
+		    <InputBorder />
+	  	</Container>
+		)
+	}	
+	else
+	  return (
+	  	<Container>
+		    <CustomInputWrapper>
+		      <Input placeholder={placeholder || ' '} {...props} />
+		      <Label>{label}</Label>
+		      {
+		      	props.icon ? 
+		      		<FontAwesomeIcon icon={props.icon} size="2x" />
+		      		: ''
+		      }
+		    </CustomInputWrapper>
+		    <InputBorder />
+		    {/* <InputDesc>You can add an estimated price</InputDesc> */}
+	  	</Container>
+	  );
 }
 
 export default CustomInput;
