@@ -16,9 +16,17 @@ export const addNewShoppingList = (name) => {
           'x-auth-token': getState().control.authToken
         },
       })
-      const data = await res.json();
-      dispatch(updateShoppingLists(data.shopping_lists));
-      dispatch(setLoading(false));
+
+      if (res.status === 200 ){
+        const data = await res.json();
+        dispatch(updateShoppingLists(data.shopping_lists));
+        dispatch(setLoading(false));
+        return Promise.resolve();
+      }else{
+        dispatch(setLoading(false));
+        return Promise.reject();
+      }
+  
    }
 } 
 
@@ -33,9 +41,16 @@ export const removeShoppingList = id => {
         'x-auth-token': getState().control.authToken
       },
     })
-    const data = await res.json();
-    dispatch(updateShoppingLists(data.shopping_lists));
-    dispatch(setLoading(false));
+    
+    if (res.status === 200 ){
+      const data = await res.json();
+      dispatch(updateShoppingLists(data.shopping_lists));
+      dispatch(setLoading(false));
+      return Promise.resolve();
+    }else{
+      dispatch(setLoading(false));
+      return Promise.reject();
+    }
   }
 }
 
