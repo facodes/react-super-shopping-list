@@ -25,6 +25,8 @@ export default (state = initialState, { type, payload }) => {
     return{
       ...state,
       authToken:null,
+      isShoppingListSelected: false,
+      shoppingListSelected:Object,
       isUserLogged:false,
     }
   } 
