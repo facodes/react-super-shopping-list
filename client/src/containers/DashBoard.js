@@ -54,21 +54,42 @@ const ListCount = styled.span`
 	}	
 `
 
+const ItemCount = styled.span`
+	font-size:1.8rem;
+	color:var(--color-primary);
+	p{
+		color: var(--color-grey);
+		span{
+			margin-left: 10px;
+			color: var(--color-light);
+		}
+	}
+`
+
+function getListTotal(shoppingList){
+	return shoppingList.items.reduce((acc, item) => {
+		if (!item.price)
+			return acc;
+		return acc + (item.price * item.quantity);
+	}, 0)
+}
 
 export class DashBoard extends Component {
   render() {
-    const { shopping_lists : shoppingLists } = this.props.user;
+    const { shoppingLists } = this.props.user;
     const { 
       isShoppingListSelected, 
-      shoppingListSelected 
+      shoppingListSelected,
+      isLoading
     } = this.props.control;
+
     return (
       <DashBoardWrapper>
         { !isShoppingListSelected ? 
           <>
             <DashBoardHeader>
               <Heading  fontSize={2.4}>
-                Your Shopping Lists
+                Shopping Lists
               </Heading>  
             </DashBoardHeader>
             <DashBoardPanel>
@@ -76,6 +97,7 @@ export class DashBoard extends Component {
              <ModalShoppingList/> 
             </DashBoardPanel>
             <ShoppingList
+              isLoading = {isLoading}
               isShoppingListSelected = {isShoppingListSelected}
               shoppingLists={shoppingLists}
               onRemoveShoppingList={this.props.onRemoveShoppingList}
@@ -94,7 +116,19 @@ export class DashBoard extends Component {
               </Heading>
             </DashBoardHeader>
             <DashBoardPanel>
-              <h1>Something goes here</h1>
+              <ItemCount>
+              	{
+              		shoppingListSelected.items.length !== 1 ? 
+              			(`${shoppingListSelected.items.length} items`) 
+              		: (`${shoppingListSelected.items.length} item`)
+              	}
+
+              	<p>list total: 
+              		<span>
+              			{getListTotal(shoppingListSelected)}$
+              		</span>
+              	</p>
+              </ItemCount>
               <ModalItem shoppingList={shoppingListSelected}/>
             </DashBoardPanel>
             <ItemList
@@ -122,8 +156,8 @@ function mapDispatchToProps(dispatch) {
     onSelectShoppingList(shoppingList) {
       dispatch(selectShoppingList(shoppingList));
     },
-    onRemoveShoppingList(id) {
-      dispatch(removeShoppingList(id));
+    async onRemoveShoppingList(id) {
+      await dispatch(removeShoppingList(id));
     },
     onRemoveItem(id) {
       dispatch(removeItem(id));

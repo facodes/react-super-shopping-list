@@ -63,11 +63,9 @@ const ItemBar = styled.div`
 		color: var(--color-grey);
 	}
 `
-
 const ItemCount = styled.span`
 	font-size:1.8rem;
 	color:var(--color-primary);
-
 `
 const Budget = styled.span`
 	font-size: 1.8rem;
