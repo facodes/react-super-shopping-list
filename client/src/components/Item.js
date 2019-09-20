@@ -118,11 +118,13 @@ const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
 				<PriceList>
 					<PriceItem>
 						price: 
-						<PriceSpan>{item.price}$</PriceSpan>
+						<PriceSpan>{item.price ? `${item.price}$` : `N/A`}</PriceSpan>
 					</PriceItem>
 					<PriceItem>
 						total:
-						<PriceSpan color="accent">{item.price * item.quantity}$</PriceSpan>
+						<PriceSpan color="accent">
+							{item.price ? `${item.price * item.quantity}$`: `N/A` }
+						</PriceSpan>
 					</PriceItem>
 				</PriceList>
 			</ItemWrapper>
