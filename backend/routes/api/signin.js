@@ -11,19 +11,19 @@ const User = require('../../models/User');
 router.post('/' , async (req, res)=> {
   
   // validate
-  const { username, name, password } = req.body;  
-  if ( !name || !username || !password ){
+  const { email, name, password } = req.body;  
+  if ( !name || !email || !password ){
     return res.status(400).json({msg:'Please complete all the fields'});
   }
 
-  const isRegistred = await User.findOne ({username}); // checking if user is already register
+  const isRegistred = await User.findOne ({email}); // checking if user is already register
   if (!isRegistred){
 
     // creating newUser with hashed password and mongoose model
     const salt = bcrypt.genSaltSync(10); // salt for hashing password
     const newUser = new User ({
       name,
-      username,
+      email,
       password:bcrypt.hashSync( password,  salt),
     });
 

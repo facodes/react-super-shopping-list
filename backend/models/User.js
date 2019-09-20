@@ -10,7 +10,7 @@ const UserSchema = new Schema({
     type:String,
     required:true,
   },
-  username:{
+  email:{
     type:String,
     required:true,
     unique:true
@@ -19,7 +19,7 @@ const UserSchema = new Schema({
     type:String,
     required:true,
   },
-  shopping_lists:[ShoppingListSchema],
+  shoppingLists:[ShoppingListSchema],
 
   register_date:{
     type:Date,

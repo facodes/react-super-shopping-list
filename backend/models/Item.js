@@ -12,6 +12,14 @@ const ItemSchema = new Schema({
     type:Boolean,
     default:false,
   },
+  price:{
+    type:Number,
+    default: null
+  },
+  quantity:{
+    type: Number,
+    default: 1
+  },
   created_at:{
     type:Date,
     default:Date.now,

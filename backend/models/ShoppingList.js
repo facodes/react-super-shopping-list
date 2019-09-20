@@ -13,9 +13,9 @@ const ShoppingListSchema = new Schema ({
     type:[ItemSchema],
     required:true,
   },
-  done:{
-    type:Boolean,
-    default:false
+  budget:{
+    type: Number,
+    default: null
   },
   created_at:{
     type:Date,
