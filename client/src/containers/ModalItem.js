@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { addNewItem } from '../actions/items';
+import { addNewItem , updateItem } from '../actions/items';
 
 // Components
 import Heading from '../components/Heading';
@@ -151,12 +151,22 @@ const QuantityInput = styled.input`
     e.preventDefault();
     e.persist();
     if (this.state.update)
-    	console.log (`update ${this.state._id} with the values ${this.state.name}, ${this.state.price}, ${this.state.quantity}`);
+    	this.props.onUpdateItem({
+        name: this.state.name,
+        price: this.state.price,
+        quantity: this.state.quantity,
+        itemId: this.state._id
+      }).then(() => {
+          e.target.reset();
+          this.toggle('close');
+        });
     else
-    	this.props.onAddNewItem(this.state.name)
-    		.then(() => {
+    	this.props.onAddNewItem({
+    		name: this.state.name,
+    		price: this.state.price,
+    		quantity: this.state.quantity,    	
+    	}).then(() => {
     			e.target.reset();
-    			// Closing the modal
     			this.toggle('close');
     		});
     
@@ -249,11 +259,11 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return{
-    onAddNewItem(payload){
-    	return new Promise(async (resolve, reject) => {
-      	await dispatch(addNewItem(payload));
-      	resolve();
-    	})
+    async onAddNewItem(payload){	
+	   await dispatch(addNewItem(payload));
+    },
+    async onUpdateItem(payload){
+      await dispatch(updateItem(payload));
     }
   }
 } 

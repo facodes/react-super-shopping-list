@@ -5,12 +5,12 @@ import {
 
 import { setLoading } from './control'
 
-export const addNewShoppingList = (name) => {
+export const addNewShoppingList = (payload) => {
    return async (dispatch, getState) => {
       dispatch(setLoading(true));
       const res = await fetch(`${URL}/api/user/shopping` ,{
         method:'POST',
-        body:JSON.stringify({name}),
+        body:JSON.stringify(payload),
         headers:{
           'Content-Type': 'application/json',
           'x-auth-token': getState().control.authToken
@@ -19,7 +19,7 @@ export const addNewShoppingList = (name) => {
 
       if (res.status === 200 ){
         const data = await res.json();
-        dispatch(updateShoppingLists(data.shopping_lists));
+        dispatch(updateShoppingLists(data.shoppingLists));
         dispatch(setLoading(false));
         return Promise.resolve();
       }else{
@@ -29,6 +29,31 @@ export const addNewShoppingList = (name) => {
   
    }
 } 
+
+export const updateShoppingList = payload =>{
+  return async (dispatch, getState) => {
+    dispatch(setLoading(true));
+    const res = await fetch(`${URL}/api/user/shopping/${payload.id}` ,{
+      method:'PATCH',
+      body:JSON.stringify(payload),
+      headers:{
+        'Content-Type': 'application/json',
+        'x-auth-token': getState().control.authToken
+      },
+    })
+    
+    if (res.status === 200 ){
+      const data = await res.json();
+      dispatch(updateShoppingLists(data.shoppingLists));
+      dispatch(setLoading(false));
+      return Promise.resolve();
+    }else{
+      dispatch(setLoading(false));
+      return Promise.reject();
+    }
+  }
+}
+
 
 export const removeShoppingList = id => {
   return async (dispatch, getState) => {
@@ -44,7 +69,7 @@ export const removeShoppingList = id => {
     
     if (res.status === 200 ){
       const data = await res.json();
-      dispatch(updateShoppingLists(data.shopping_lists));
+      dispatch(updateShoppingLists(data.shoppingLists));
       dispatch(setLoading(false));
       return Promise.resolve();
     }else{
@@ -54,11 +79,11 @@ export const removeShoppingList = id => {
   }
 }
 
-export const updateShoppingLists = (shopping_lists) => {
+export const updateShoppingLists = (shoppingLists) => {
     return dispatch => {
       dispatch({
         type:UPDATE_SHOPPINGLISTS,
-        payload:{shopping_lists}
+        payload:{shoppingLists}
       })
     }
 }

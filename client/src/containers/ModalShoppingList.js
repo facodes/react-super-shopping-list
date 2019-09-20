@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { addNewShoppingList } from '../actions/shoppingList';
+import { addNewShoppingList, updateShoppingList } from '../actions/shoppingList';
 
 // Components
 import Heading from '../components/Heading';
@@ -129,11 +129,20 @@ class ModalShoppingList extends Component {
     }
 
     if (this.state.update)
-    	// Here we will handle update 
-    	console.log(`Submit form with ${this.state.name}, ${this.state._id} , ${this.state.budget} `);
+    	this.props.onUpdateShoppingList({
+    		id: this.state._id,
+    		name: this.state.name,
+    		budget: this.state.budget,
+    	}).then(() => { 
+    			e.target.reset();
+    			this.toggle('close'); 
+        });
+
     else
-    	this.props.onAddNewShoppingList(this.state.name)
-    		.then(() => { 
+    	this.props.onAddNewShoppingList({
+    		name:this.state.name,
+    		budget:this.state.budget
+    	}).then(() => { 
     			e.target.reset();
     			this.toggle('close'); 
         });
@@ -196,11 +205,13 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return{
-    async onAddNewShoppingList(name){
-        await dispatch(addNewShoppingList(name));
+    async onAddNewShoppingList(payload){
+        await dispatch(addNewShoppingList(payload));
+    },
+    async onUpdateShoppingList(payload){
+    	await dispatch(updateShoppingList(payload));
     }
   }
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalShoppingList);

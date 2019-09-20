@@ -15,11 +15,8 @@ import {
 export const signIn = (payload) =>{
   return async dispatch => {
     // Client side validation for inputs
-    if( !payload.username || !payload.name || !payload.password ){
+    if( !payload.email || !payload.name || !payload.password ){
       dispatch(showAlert({msg:'Please complete all the fields', color:'warning'}));
-      return;
-    }else if(payload.username.length < 5){
-      dispatch(showAlert({msg:'Username must be at least 5 characters', color:'warning'}));
       return;
     }else if(payload.password.length < 4 ){
       dispatch(showAlert({msg:'Password must be at least 4 characters', color:'warning'}));
@@ -54,7 +51,7 @@ export const signIn = (payload) =>{
 export const logIn = payload =>{
   return async dispatch =>{
 
-    if( !payload.username || !payload.password ){
+    if( !payload.email || !payload.password ){
       dispatch(showAlert({msg:'Please complete all the fields', color:'warning'}));
       return;
     }
@@ -84,7 +81,7 @@ export const logOut = () => {
 
 export const loadUser = (token) => {
   return async (dispatch) => {
-    const res = await fetch(`${URL}/api/user/auth`, {
+    const res = await fetch(`${URL}/api/user/`, {
       headers:{
         'x-auth-token':token,
       }

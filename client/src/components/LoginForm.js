@@ -29,7 +29,7 @@ const FormGroup = styled.div`
 
 export class LoginForm extends Component {
   state = {
-    username: '',
+    email: '',
     password: '',
     checked: false
   };
@@ -54,9 +54,9 @@ export class LoginForm extends Component {
         <FormBody>
           <FormGroup>
             <CustomInput
-              label="username"
-              type="text"
-              name="username"
+              label="email"
+              type="email"
+              name="email"
               onChange={this.onInputChange}
               required
             />

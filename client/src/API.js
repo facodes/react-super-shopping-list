@@ -1,4 +1,4 @@
-export const URL = 'https://sslapi.now.sh'
+export const URL = 'https://sslapiv2.now.sh'
 
 export const data = {
   shoppingLists:[

@@ -28,7 +28,7 @@ const FormGroup = styled.div`
 
 export class SignInForm extends Component {
   state = {
-    username: '',
+    email: '',
     name: '',
     password: ''
   };
@@ -53,9 +53,9 @@ export class SignInForm extends Component {
         <FormBody>
           <FormGroup>
             <CustomInput
-              label="username"
-              type="text"
-              name="username"
+              label="email"
+              type="email"
+              name="email"
               onChange={this.onInputChange}
               required
             />

@@ -5,13 +5,13 @@ import {
 
 import { setLoading } from './control'
 
-export const addNewItem  = name => {
+export const addNewItem  = payload => {
   return async (dispatch, getState) => {
     dispatch(setLoading(true));
     const shoppingList =  getState().control.shoppingListSelected;
-    const res = await fetch(`${URL}/api/user/item` ,{
+    const res = await fetch(`${URL}/api/user/${shoppingList._id}/item` ,{
       method:'POST',
-      body:JSON.stringify({name, id:shoppingList._id}),
+      body:JSON.stringify(payload),
       headers:{
         'Content-Type': 'application/json',
         'x-auth-token': getState().control.authToken
@@ -20,25 +20,60 @@ export const addNewItem  = name => {
 
     if(res.status === 200){
       const data = await res.json();  
-      const shopping_lists = getState().user.shopping_lists;
-      const foundIndex = shopping_lists.findIndex( sl => sl._id === shoppingList._id);
-      shopping_lists[foundIndex].items = [...data.items];
+      const shoppingLists = getState().user.shoppingLists;
+      const foundIndex = shoppingLists.findIndex( sl => sl._id === shoppingList._id);
+      shoppingLists[foundIndex].items = [...data.items];
       dispatch({
         type:UPDATE_SHOPPINGLISTS,
-        payload:{shopping_lists}
+        payload:{shoppingLists}
       })
+      dispatch(setLoading(false));
+      Promise.resolve();
+    }else{
+      dispatch(setLoading(false));
+      return Promise.reject();
     }
-    dispatch(setLoading(false));
+    
   }
 }
 
-export const removeItem = itemID => {
+export const updateItem  = payload => {
+  return async (dispatch, getState) => {
+    dispatch(setLoading(true));
+    const shoppingList =  getState().control.shoppingListSelected;
+    const res = await fetch(`${URL}/api/user/${shoppingList._id}/${payload.itemId}` ,{
+      method:'PATCH',
+      body:JSON.stringify(payload),
+      headers:{
+        'Content-Type': 'application/json',
+        'x-auth-token': getState().control.authToken
+      },
+    });
+
+    if(res.status === 200){
+      const data = await res.json();  
+      const shoppingLists = getState().user.shoppingLists;
+      const foundIndex = shoppingLists.findIndex( sl => sl._id === shoppingList._id);
+      shoppingLists[foundIndex].items = [...data.items];
+      dispatch({
+        type:UPDATE_SHOPPINGLISTS,
+        payload:{shoppingLists}
+      })
+      dispatch(setLoading(false));
+      Promise.resolve();
+    }else{
+      dispatch(setLoading(false));
+      return Promise.reject();
+    }
+  }
+}
+
+export const removeItem = itemId => {
   return async (dispatch, getState) => {
     dispatch(setLoading(true));    
     const shoppingList =  getState().control.shoppingListSelected;
-    const res = await fetch(`${URL}/api/user/item` ,{
+    const res = await fetch(`${URL}/api/user/${shoppingList._id}/${itemId}`,{
       method:'DELETE',
-      body:JSON.stringify({itemID, shoppingListID:shoppingList._id}),
       headers:{
         'Content-Type': 'application/json',
         'x-auth-token': getState().control.authToken
@@ -47,24 +82,27 @@ export const removeItem = itemID => {
 
     if (res.status === 200){
       const data = await res.json();  
-      const shopping_lists = getState().user.shopping_lists;
-      const foundIndex = shopping_lists.findIndex( sl => sl._id === shoppingList._id);
-      shopping_lists[foundIndex].items = [...data.items];
+      const shoppingLists = getState().user.shoppingLists;
+      const foundIndex = shoppingLists.findIndex( sl => sl._id === shoppingList._id);
+      shoppingLists[foundIndex].items = [...data.items];
       dispatch({
         type:UPDATE_SHOPPINGLISTS,
-        payload:{shopping_lists}
+        payload:{shoppingLists}
       });
+      dispatch(setLoading(false));
+      Promise.resolve();
+    }else{
+      dispatch(setLoading(false));
+      return Promise.reject();
     }
-    dispatch(setLoading(false));
   }
 }
 
-export const toggleTodoDone = itemID => {
+export const toggleTodoDone = itemId => {
   return async (dispatch, getState) => { 
     const shoppingList =  getState().control.shoppingListSelected;
-    const res = await fetch(`${URL}/api/user/item/done` ,{
+    const res = await fetch(`${URL}/api/user/${shoppingList._id}/${itemId}/done` ,{
       method:'POST',
-      body:JSON.stringify({itemID, shoppingListID:shoppingList._id}),
       headers:{
         'Content-Type': 'application/json',
         'x-auth-token': getState().control.authToken,
@@ -72,12 +110,12 @@ export const toggleTodoDone = itemID => {
     });
     if (res.status === 200){
       const data = await res.json();  
-      const shopping_lists = getState().user.shopping_lists;
-      const foundIndex = shopping_lists.findIndex( sl => sl._id === shoppingList._id);
-      shopping_lists[foundIndex].items = [...data];
+      const shoppingLists = getState().user.shoppingLists;
+      const foundIndex = shoppingLists.findIndex( sl => sl._id === shoppingList._id);
+      shoppingLists[foundIndex].items = [...data];
       dispatch({
         type:UPDATE_SHOPPINGLISTS,
-        payload:{shopping_lists}
+        payload:{shoppingLists}
       });
     }
   }
