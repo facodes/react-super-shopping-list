@@ -55,3 +55,7 @@
 ### Animations/transitions
 - [x] Switching forms
 - [x] Switching lists
+
+### Navbar
+
+### Responsive

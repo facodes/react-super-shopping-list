@@ -17,10 +17,10 @@ export const signIn = (payload) =>{
     // Client side validation for inputs
     if( !payload.email || !payload.name || !payload.password ){
       dispatch(showAlert({msg:'Please complete all the fields', color:'black'}));
-      return;
+      return Promise.reject();
     }else if(payload.password.length < 4 ){
-      dispatch(showAlert({msg:'Password must be at least 4 characters', color:'black'}));
-      return;
+      dispatch(showAlert({msg:'Password must be at least 4 characters', color:'black'}));      
+      return Promise.reject();
     } 
 
     dispatch(setLoading(true));
@@ -38,12 +38,12 @@ export const signIn = (payload) =>{
     // reading response
     if (res.status === 200){
       dispatch(showAlert({ msg: 'You are now registred!', color:'accent'}));
-      Promise.resolve();
+      return Promise.resolve();
     }else{ // an error occur
       dispatch(showAlert({ msg: data.msg, color:'primary'}));
+      dispatch(setLoading(false));
+      return Promise.reject();
     }
-
-    dispatch(setLoading(false));
   }
   
 }

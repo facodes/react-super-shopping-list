@@ -41,7 +41,7 @@ export class SignInForm extends Component {
     		setTimeout(() => {
     			this.props.setFormType(true);
     		}, 500)	
-    	})
+    	});
   };
 
   render() {
