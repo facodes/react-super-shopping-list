@@ -15,20 +15,14 @@ import { removeShoppingList } from '../actions/shoppingList';
 import { selectShoppingList } from '../actions/control';
 import { removeItem, toggleTodoDone } from '../actions/items';
 
-
-/* 
-  OFFLINE DATA
-*/
-import { data } from '../API';
-
 const  DashBoardWrapper = styled.div`
 	width:99%;
 	min-height: 63rem;
-	margin:0 auto;
+	margin: 4.7rem auto 0 auto;
 	background: var(--color-dark);
 	border-radius: 32px;
 	color:var(--color-light);
-	margin-top: 4.7rem;
+	padding-bottom: 3rem;
 `
 
 const DashBoardHeader = styled.div`
@@ -66,13 +60,18 @@ const ItemCount = styled.span`
 	}
 `
 
-function getListTotal(shoppingList){
+const getListTotal = (shoppingList) => {
 	return shoppingList.items.reduce((acc, item) => {
 		if (!item.price)
 			return acc;
 		return acc + (item.price * item.quantity);
 	}, 0)
 }
+
+const round = (number, decimals) => {
+  return +(Math.round(number + "e+" + decimals) + "e-" + decimals);
+}
+
 
 export class DashBoard extends Component {
   render() {
@@ -125,7 +124,7 @@ export class DashBoard extends Component {
 
               	<p>list total: 
               		<span>
-              			{getListTotal(shoppingListSelected)}$
+              			{round(getListTotal(shoppingListSelected),2)}$
               		</span>
               	</p>
               </ItemCount>

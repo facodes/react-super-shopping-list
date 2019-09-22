@@ -90,16 +90,19 @@ const OptionsWrapper = styled.div`
 
 const OptionsButton = styled.div `
 	z-index: 1;
-	margin-right: .5rem;
+	margin-right: .7rem;
 `
 
-const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
-	const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+const Item = ({item, onToggleTodoDone, onRemoveItem, isOptionsOpen, openOptionsForItem}) => {
 	const [checked, setChecked] = useState(false);
 
 	useEffect(() =>{
 		setChecked(item.done);
-	}, [item.done])
+	}, [item.done]);
+
+	const round = (number, decimals) => {
+	  return +(Math.round(number + "e+" + decimals) + "e-" + decimals);
+	}
 
   return (
 		<Wrapper>
@@ -118,12 +121,12 @@ const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
 				<PriceList>
 					<PriceItem>
 						price: 
-						<PriceSpan>{item.price ? `${item.price}$` : `N/A`}</PriceSpan>
+						<PriceSpan>{item.price ? `${round(item.price, 2)}$` : `N/A`}</PriceSpan>
 					</PriceItem>
 					<PriceItem>
 						total:
 						<PriceSpan color="accent">
-							{item.price ? `${item.price * item.quantity}$`: `N/A` }
+							{item.price ? `${round(item.price * item.quantity, 2)}$`: `N/A` }
 						</PriceSpan>
 					</PriceItem>
 				</PriceList>
@@ -135,20 +138,19 @@ const Item = ({item, onToggleTodoDone, onRemoveItem}) => {
 					Delete
 				</Button>
 				<Button  color="dark" size="sm"
-					onClick = {() => window.toggleItemModal('update', item)}
+					onClick = {() => {
+						window.toggleItemModal('update', item);
+						openOptionsForItem(null);
+					}}
 				>
 					edit
 				</Button>
 			</OptionsWrapper>
-      <OptionsButton 
-      	onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-      >
+      <OptionsButton>
       	{
 					isOptionsOpen ?
-					<IconButton 
-						icon="times"
-					/>
-					:<IconButton icon="bars"/>
+			 		 <IconButton icon="times" onClick={() => openOptionsForItem(null)}/>
+					:<IconButton icon="bars" 	onClick={() => openOptionsForItem(item._id)}/>
 				}
 			</OptionsButton>
 		</Wrapper>

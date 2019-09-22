@@ -92,12 +92,11 @@ const OptionsWrapper = styled.div`
 `
 const OptionsButton = styled.div `
 	z-index:1;
-	margin-right: .5rem;
+	margin-right: .7rem;
 `
-const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingList, isLoading}) => {
+const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingList, isLoading, openOptionsForList, isOptionsOpen}) => {
 
 	const itemsCount = shoppingList.items.length;
-	const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 	const [completedItemsPercentage, setCompletedItemsPercentage] = useState(0);
 
 	useEffect(() => {
@@ -140,24 +139,19 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
 					Delete
 				</Button>
 				<Button  color="dark" size="sm"
-				  onClick={() => window.toggleShoppingListModal('update',{ 
-				  	name: shoppingList.name,
-				  	budget: shoppingList.budget,
-				  	_id: shoppingList._id
-				  })}
+				  onClick={() => {
+				  	window.toggleShoppingListModal('update',shoppingList);
+				  	openOptionsForList(null);
+				  }}
 				>
 					edit
 				</Button>
 			</OptionsWrapper>
-      <OptionsButton 
-      	onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-      >
+      <OptionsButton >
       	{
 					isOptionsOpen ?
-					<IconButton 
-						icon="times"
-					/>
-					:<IconButton icon="bars"/>
+					 <IconButton icon="times" onClick={() => openOptionsForList(null)}/>
+					:<IconButton icon="bars" 	onClick={() => openOptionsForList(shoppingList._id)}/>
 				}
 			</OptionsButton>
     </Wrapper>

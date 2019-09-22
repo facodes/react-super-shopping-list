@@ -102,6 +102,7 @@ const QuantityInput = styled.input`
 
  toggle = (mode, payload) => {
  		if (mode === 'close'){
+ 			document.body.style.overflow = 'visible';
  			this.setState({
  				modal: !this.state.modal
  			})
@@ -117,11 +118,13 @@ const QuantityInput = styled.input`
 
  		}
  		else if (mode === 'open'){
+ 			document.body.style.overflow = 'hidden';
  			this.setState({
  				modal: !this.state.modal
  			})
  		}
  		else if (mode === 'update'){
+ 			document.body.style.overflow = 'hidden';
  			this.setState({
  				modal: !this.state.modal,
  				update: true,
@@ -139,9 +142,9 @@ const QuantityInput = styled.input`
     if (e === 'substract'){
       if (this.state.quantity <= 1)
         return
-      this.setState({ quantity: this.state.quantity - 1 });
+      this.setState({ quantity: parseInt(this.state.quantity) - 1 });
     }else if ( e === 'add'){
-      this.setState({ quantity: this.state.quantity + 1 });
+      this.setState({ quantity: parseInt(this.state.quantity) + 1 });
     }else{
     	this.setState({quantity: e.target.value});
     }
@@ -196,7 +199,7 @@ const QuantityInput = styled.input`
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <CustomInput
-                  label="name"
+                  label="item"
                   type="text"
                   name="name"
                   value={this.state.name.toString()}

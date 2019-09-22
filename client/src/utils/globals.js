@@ -17,7 +17,8 @@ export default createGlobalStyle`
       -moz-osx-font-smoothing: grayscale;
     }
     html {
-      font-size: 62.5%; //1rem = 10px
+    	/* 1rem = 10px */
+      font-size: 62.5%; 
       box-sizing: border-box;
       --color-primary: ${props => props.theme.colors.primary};
       --color-secondary: ${props => props.theme.colors.secondary};
@@ -31,10 +32,12 @@ export default createGlobalStyle`
       --regular: ${props => props.theme.fonts.weight.regular};
       --bold: ${props => props.theme.fonts.weight.bold};
     }
+
     body {
       font-family: 'Poppins', sans-serif;
       font-weight: 400;
     }
+    
     form,
     input,
     textarea,

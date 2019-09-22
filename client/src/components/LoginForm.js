@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import Heading from './Heading';
+import { SlideRightAnimation } from '../utils/animations';
+
 import { Button } from './Buttons';
 import CustomInput from './form/CustomInput';
 import CustomCheckbox from './form/CustomCheckbox';
 
-const FormHeader = styled.div`
-  padding: 3.125em 2em 1em 2em;
-  border-bottom: 2px solid var(--color-black-lg);
-`;
-
-const FormBody = styled.div`
-  padding: 4.625em 2em 1em 2em;
+const StyledForm = styled.form`
+  padding: 4.625em 3rem 1em 3rem;
+  min-height: 33rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -31,10 +28,10 @@ export class LoginForm extends Component {
   state = {
     email: '',
     password: '',
-    checked: false
+    keepUserLoggedIn: false
   };
 
-  onCheckboxChange = evt => this.setState({ checked: evt.target.checked });
+  onCheckboxChange = evt => this.setState({ keepUserLoggedIn: evt.target.checked });
 
   onInputChange = evt => {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -47,43 +44,40 @@ export class LoginForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        <FormHeader>
-          <Heading fontSize={3.6}>Login</Heading>
-        </FormHeader>
-        <FormBody>
-          <FormGroup>
-            <CustomInput
-              label="email"
-              type="email"
-              name="email"
-              onChange={this.onInputChange}
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <CustomInput
-              label="password"
-              type="password"
-              name="password"
-              onChange={this.onInputChange}
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <CustomCheckbox
-              label="keep me log in"
-              checked={this.state.checked}
-              onChange={this.onCheckboxChange}
-            />
-          </FormGroup>
-          <ButtonWrapper>
-            <Button type="submit" color="accent" spinner>
-              Login
-            </Button>
-          </ButtonWrapper>
-        </FormBody>
-      </form>
+    	<SlideRightAnimation>
+	      <StyledForm onSubmit={this.onSubmit}>
+	        <FormGroup>
+	          <CustomInput
+	            label="email"
+	            type="email"
+	            name="email"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <FormGroup>
+	          <CustomInput
+	            label="password"
+	            type="password"
+	            name="password"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <FormGroup>
+	          <CustomCheckbox
+	            label="keep me log in"
+	            checked={this.state.keepUserLoggedIn}
+	            onChange={this.onCheckboxChange}
+	          />
+	        </FormGroup>
+	        <ButtonWrapper>
+	          <Button type="submit" color="accent" spinner>
+	            Login
+	          </Button>
+	        </ButtonWrapper>
+	      </StyledForm>
+    	</SlideRightAnimation>
     );
   }
 }

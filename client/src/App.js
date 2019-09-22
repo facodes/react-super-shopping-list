@@ -9,14 +9,21 @@ import {
   faMinus,
   faDollarSign,
   faEye,
+  faSignOutAlt
  } from '@fortawesome/free-solid-svg-icons';
+
+ import { FadeInAnimation } from './utils/animations';
 
 // components
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
+import Alert from './components/Alert';
+import Loading from './components/Loading';
 
 // Containers
 import DashBoard from './containers/DashBoard';
 import Welcome from './containers/Welcome';
+
 // redux
 import { connect } from 'react-redux';
 // actions
@@ -32,15 +39,8 @@ library.add(
  faMinus,
  faDollarSign,
  faEye,
+ faSignOutAlt
 );
-
-const shoppingCartContainer = {
-  height: '100vh',
-  display: 'flex',
-  justifyContent:'center',
-  alignItems:'center',
-  margin: '0 auto'
-};
 
 class App extends Component {
   componentDidMount() {
@@ -52,15 +52,14 @@ class App extends Component {
     return (
       <>
         {isAppInitialized ? (
-          <div>
+          <FadeInAnimation>
             <NavBar/>
             {isUserLogged ? <DashBoard /> : <Welcome />}
-          </div>
-        ) : (
-          <div style={shoppingCartContainer}>
-            <h1>Loading...</h1>
-          </div>
-        )}
+            <Footer/>
+            <Alert/>
+          </FadeInAnimation>
+        ) : <Loading />
+        }
       </> 
     )
   }

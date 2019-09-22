@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import Heading from './Heading';
+import { SlideRightAnimation } from '../utils/animations';
+
 import { Button } from './Buttons';
 import CustomInput from './form/CustomInput';
 
-const FormHeader = styled.div`
-  padding: 3.125em 2em 1em 2em;
-  border-bottom: 2px solid var(--color-black-lg);
-`;
-
-const FormBody = styled.div`
-  padding: 4.625em 2em 1em 2em;
+const StyledForm = styled.form`
+  padding: 4.625em 3rem 1em 3rem;
+  min-height: 33rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -39,52 +36,52 @@ export class SignInForm extends Component {
 
   onSubmit = evt => {
     evt.preventDefault();
-    this.props.onSignIn(this.state);
+    this.props.onSignIn(this.state)
+    	.then(() => {
+    		setTimeout(() => {
+    			this.props.setFormType(true);
+    		}, 500)	
+    	})
   };
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        <FormHeader>
-          <Heading fontSize={3.6}>
-          	register
-          </Heading>
-        </FormHeader>
-        <FormBody>
-          <FormGroup>
-            <CustomInput
-              label="email"
-              type="email"
-              name="email"
-              onChange={this.onInputChange}
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <CustomInput
-              label="name"
-              type="text"
-              name="name"
-              onChange={this.onInputChange}
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <CustomInput
-              label="password"
-              type="password"
-              name="password"
-              onChange={this.onInputChange}
-              required
-            />
-          </FormGroup>
-          <ButtonWrapper>
-            <Button type="submit" color="accent" spinner>
-              Register
-            </Button>
-          </ButtonWrapper>
-        </FormBody>
-      </form>
+    	<SlideRightAnimation>
+	      <StyledForm onSubmit={this.onSubmit}>
+	        <FormGroup>
+	          <CustomInput
+	            label="email"
+	            type="email"
+	            name="email"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <FormGroup>
+	          <CustomInput
+	            label="name"
+	            type="text"
+	            name="name"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <FormGroup>
+	          <CustomInput
+	            label="password"
+	            type="password"
+	            name="password"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <ButtonWrapper>
+	          <Button type="submit" color="accent" spinner>
+	            Register
+	          </Button>
+	        </ButtonWrapper>
+	      </StyledForm>
+    	</SlideRightAnimation>
     );
   }
 }

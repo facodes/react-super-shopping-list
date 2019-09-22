@@ -1,4 +1,4 @@
-import React  from 'react'
+import React , { useState } from 'react'
 
 import { SlideRightAnimation } from '../utils/animations';
 
@@ -7,15 +7,24 @@ import Item from './Item';
 
 
 const ItemList = ({ shoppingList, onRemoveItem, onToggleTodoDone, isShoppingListSelected}) => {
+
+	const [itemOpenId, setItemOpenId] = useState(null);
+
+	function openOptionsForItem (id){
+		setItemOpenId(id);
+	}
+
   const { items } = shoppingList ;
   return (
-    <SlideRightAnimation isShoppingListSelected={isShoppingListSelected}>
+    <SlideRightAnimation>
       {
-       items.map((item, index) => {
+       items.map((item) => {
           return (
             <Item
-              key={index}
+              key={item._id}
               item={item}
+              isOptionsOpen = {itemOpenId === item._id ? true : false }
+              openOptionsForItem={openOptionsForItem}
               onRemoveItem={onRemoveItem}
               onToggleTodoDone = {onToggleTodoDone}
             />   

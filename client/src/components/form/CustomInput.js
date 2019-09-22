@@ -57,15 +57,21 @@ const InputBorder = styled.div`
   background: var(--color-primary);
 `;
 
+function getFaIconColor(inputType){
+	return inputType === 'password' ? 
+		({ padding: '0.2em', opacity: '0.5' })
+	: ({	padding: '0.2em', opacity: '1' });
+}
+
 function CustomInput({ label, placeholder, ...props }) {
 	const [inputType, setInputType] = useState(props.type);
 	if (props.type === 'password'){
 		return(
 	  	<Container>
 		    <CustomInputWrapper>
-		      <Input type={inputType} placeholder={placeholder || ' '} {...props} />
+		      <Input {...props} placeholder={placeholder || ' '} type={inputType} />
 		      <Label>{label}</Label>
-		      <FontAwesomeIcon icon="eye" size="3x" style={{ padding: '0.2em'}} 
+		      <FontAwesomeIcon icon="eye" size="3x" style={getFaIconColor(inputType)} 
 						onClick={() => {
 							if (inputType === 'password')
 								setInputType('text');

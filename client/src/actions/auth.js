@@ -16,10 +16,10 @@ export const signIn = (payload) =>{
   return async dispatch => {
     // Client side validation for inputs
     if( !payload.email || !payload.name || !payload.password ){
-      dispatch(showAlert({msg:'Please complete all the fields', color:'warning'}));
+      dispatch(showAlert({msg:'Please complete all the fields', color:'black'}));
       return;
     }else if(payload.password.length < 4 ){
-      dispatch(showAlert({msg:'Password must be at least 4 characters', color:'warning'}));
+      dispatch(showAlert({msg:'Password must be at least 4 characters', color:'black'}));
       return;
     } 
 
@@ -37,10 +37,10 @@ export const signIn = (payload) =>{
 
     // reading response
     if (res.status === 200){
-      console.log('success');
-      dispatch(showAlert({ msg: 'You are now Register!', color:'success'}));
+      dispatch(showAlert({ msg: 'You are now registred!', color:'accent'}));
+      Promise.resolve();
     }else{ // an error occur
-      dispatch(showAlert({ msg: data.msg, color:'danger'}));
+      dispatch(showAlert({ msg: data.msg, color:'primary'}));
     }
 
     dispatch(setLoading(false));
@@ -50,26 +50,23 @@ export const signIn = (payload) =>{
 
 export const logIn = payload =>{
   return async dispatch =>{
-
+    dispatch(setLoading(true));
     if( !payload.email || !payload.password ){
-      dispatch(showAlert({msg:'Please complete all the fields', color:'warning'}));
+      dispatch(showAlert({msg:'Please complete all the fields', color:'black'}));
       return;
     }
-
-    dispatch(setLoading(true));
     const res = await fetch(`${URL}/api/login`,{
       method:'POST',
       body:JSON.stringify(payload),
       headers:{"Content-type" : "application/json"}
     })
-    dispatch(setLoading(false));
-    
     const data = await res.json();
     if(res.status === 200){
-      dispatch(loadUser(data.token));
+      dispatch(loadUser( {token: data.token, keepUserLoggedIn: payload.keepUserLoggedIn} ));
     }else{
-      dispatch(showAlert({ msg: data.msg, color:'danger'}));
+      dispatch(showAlert({ msg: data.msg, color:'primary'}));
     } 
+    dispatch(setLoading(false));
   }
 }
 
@@ -79,7 +76,7 @@ export const logOut = () => {
   }
 }
 
-export const loadUser = (token) => {
+export const loadUser = ({token, keepUserLoggedIn}) => {
   return async (dispatch) => {
     const res = await fetch(`${URL}/api/user/`, {
       headers:{
@@ -89,7 +86,7 @@ export const loadUser = (token) => {
     if (res.status === 200){
       const user = await res.json();
       dispatch({type:LOAD_USER,payload:{user}});
-      dispatch({type:LOGIN_SUCCESS,payload:{token}});
+      dispatch({type:LOGIN_SUCCESS,payload:{token, keepUserLoggedIn}});
     }
   }
 }

@@ -6,6 +6,7 @@ import {
 const initialState = {
   msg:'',
   color:'',
+  timeoutId: null,
   showAlert:false,
 }
 
@@ -20,8 +21,7 @@ export default (state = initialState, { type, payload }) => {
   case CLEAR_ALERT:    
     return{
       ...state,
-      msg:'',
-      color:'',
+      timeoutId: null,
       showAlert:false,
     }
   default:

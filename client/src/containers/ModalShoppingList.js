@@ -19,7 +19,7 @@ const Modal = styled.div`
   top: 50%;
   left: 0;
   right: 0;
-  height:100vh;
+  height:101vh;
   z-index: 9999;
   transform: ${props => props.isOpen ? `translate(0, -50%)` : `translate(-100%, -50%)`};   
   opacity: ${props => props.isOpen ?  1 :  0};
@@ -84,6 +84,7 @@ class ModalShoppingList extends Component {
     }
 
 		if (mode === 'close'){
+			document.body.style.overflow = 'visible';
 			this.setState({
 				modal: !this.state.modal
 			});
@@ -99,6 +100,7 @@ class ModalShoppingList extends Component {
 
 		}
 		else if (mode === 'open'){
+			document.body.style.overflow = 'hidden';
 			this.setState({
 				modal: !this.state.modal,
 				heading: 'Add a new List',
@@ -107,6 +109,7 @@ class ModalShoppingList extends Component {
 
 		}
 		else if (mode === 'update'){
+			document.body.style.overflow = 'hidden';
 			this.setState({
 				modal: !this.state.modal,
 				heading: `${payload.name}`,

@@ -2,18 +2,20 @@ import {
   SET_LOADING, SET_APP_INIT,SET_USER_LOGGED, SET_SHOPPINGLIST, SET_SHOPPINGLIST_SELECTED,
 }from './types'
 
-import {loadUser} from './auth'
+import {loadUser} from './auth';
 
 export const initApp = () => {
   return async (dispatch, getState) => { 
     const token = getState().control.authToken;
     if (token){
-      await dispatch(loadUser(token));
+
+
+      await dispatch(loadUser({ token }));
       dispatch(setUserLogged(true));
     }
     setTimeout(() => {
       dispatch(setIsAppInit(true));
-    }, 1000);
+    }, 2000);
   }
 }
 
