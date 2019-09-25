@@ -8,27 +8,30 @@ import Heading from '../components/Heading';
 import { Button, IconButton } from '../components/Buttons';
 import CustomInput from '../components/form/CustomInput'
 
-const Modal = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-flow: column nowrap;
-  background-color: rgba(0,0,0 , 0.6);
-  color: var(--color-light);
+const ModalWrapper = styled.div`
   position: fixed;
-  top: 50%;
+  top:0;
+  bottom: 0;
   left: 0;
   right: 0;
-  height:100vh;
+  background-color: rgba(0,0,0 , 0.6);
   z-index: 9999;
-  transform: ${props => props.isOpen ? `translate(0, -50%)` : `translate(-100%, -50%)`};   
   opacity: ${props => props.isOpen ?  1 :  0};
+  transform: ${props => props.isOpen ? `translateY(0)` : `translateY(-100%)`}; 
   transition: ${props =>
     props.isOpen ?
-     `opacity .15s  ease-in`
-    :`opacity .15s  ease-in, transform 0s .15s`
+     `opacity .3s  ease-in-out`
+    :`opacity .3s  ease-in-out, transform 0s 0.3s`
   };
-
+`
+const Modal = styled.div`
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
 `
 const ModalHeader = styled.div`
   width:100%;
@@ -183,72 +186,74 @@ const QuantityInput = styled.input`
           icon="plus"
           bg="primary"
         />
-        <Modal isOpen={this.state.modal} toggle={this.toggle} centered>
-          <ModalHeader toggle={this.toggle}>
-            <Heading fontSize={2.4}>
-              { 
-              	!this.state.update ? 
-              	`Add to ${this.props.shoppingList.name}`
-              	: 
-              	`Update item`
-              }
-            </Heading>   
-            <IconButton icon="times" size="2x" onClick={() => this.toggle('close')}/>
-          </ModalHeader>
-          <ModalBody>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <CustomInput
-                  label="item"
-                  type="text"
-                  name="name"
-                  value={this.state.name.toString()}
-                  onChange={this.onInputChange}
-                  required
-                />
-              </FormGroup> 
-              <FormGroup>
-                <CustomInput
-                  label="price"
-                  type="number"
-                  name="price"
-                  icon={"dollar-sign"}
-                  value={this.state.price ? this.state.price : ``}
-                  onChange={this.onInputChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <QuantityInputWrapper>
-                  <IconButton 
-                    icon="minus" size="2x" type="button"
-                    onClick={this.onQuantityInputChange.bind(this, 'substract')}
-                  />
-                  <QuantityInput 
-                    type="number" name="quantity"
-                    value={this.state.quantity}
-                    min="1" 
-                    onChange={this.onQuantityInputChange}
-                    onBlur={()=> {
-                    	if (this.state.quantity <= 0)
-                    		this.setState({quantity: 1})
-                    }}
+        <ModalWrapper isOpen={this.state.modal}> 
+	        <Modal>
+	          <ModalHeader >
+	            <Heading fontSize={2.4}>
+	              { 
+	              	!this.state.update ? 
+	              	`Add to ${this.props.shoppingList.name}`
+	              	: 
+	              	`Update item`
+	              }
+	            </Heading>   
+	            <IconButton icon="times" size="2x" onClick={() => this.toggle('close')}/>
+	          </ModalHeader>
+	          <ModalBody>
+	            <Form onSubmit={this.onSubmit}>
+	              <FormGroup>
+	                <CustomInput
+	                  label="item"
+	                  type="text"
+	                  name="name"
+	                  value={this.state.name.toString()}
+	                  onChange={this.onInputChange}
+	                  required
+	                />
+	              </FormGroup> 
+	              <FormGroup>
+	                <CustomInput
+	                  label="price"
+	                  type="number"
+	                  name="price"
+	                  icon={"dollar-sign"}
+	                  value={this.state.price ? this.state.price : ``}
+	                  onChange={this.onInputChange}
+	                />
+	              </FormGroup>
+	              <FormGroup>
+	                <QuantityInputWrapper>
+	                  <IconButton 
+	                    icon="minus" size="2x" type="button"
+	                    onClick={this.onQuantityInputChange.bind(this, 'substract')}
+	                  />
+	                  <QuantityInput 
+	                    type="number" name="quantity"
+	                    value={this.state.quantity}
+	                    min="1" 
+	                    onChange={this.onQuantityInputChange}
+	                    onBlur={()=> {
+	                    	if (this.state.quantity <= 0)
+	                    		this.setState({quantity: 1})
+	                    }}
 
-                    />  
-                  <IconButton 
-                    icon="plus" size="2x" type="button"
-                    onClick={this.onQuantityInputChange.bind(this, 'add')}
-                  
-                  />
-                </QuantityInputWrapper>
-                </FormGroup> 
-                <FormGroup>
-                  <Button type="submit" color="accent" spinner>
-                    {this.state.update ? `save` : `add`}
-                  </Button>
-                </FormGroup>
-              </Form>
-          </ModalBody>
-        </Modal>
+	                    />  
+	                  <IconButton 
+	                    icon="plus" size="2x" type="button"
+	                    onClick={this.onQuantityInputChange.bind(this, 'add')}
+	                  
+	                  />
+	                </QuantityInputWrapper>
+	                </FormGroup> 
+	                <FormGroup>
+	                  <Button type="submit" color="accent" spinner>
+	                    {this.state.update ? `save` : `add`}
+	                  </Button>
+	                </FormGroup>
+	              </Form>
+	          </ModalBody>
+	        </Modal>
+        </ModalWrapper>
       </div>
     )
   }

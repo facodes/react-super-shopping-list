@@ -42,7 +42,7 @@
  - [x] Hook delete Item functionality
  - [x] New item modal
   - [x] Test a lot that quantity button
-  - [ ] Fix up/down keys on desktop
+  - [x] Fix up/down keys on desktop
   - [x] look for an unFocus propertie to check the value of the input
 
 

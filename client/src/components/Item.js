@@ -1,5 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import styled from 'styled-components';
+import ReactLoading from 'react-loading';
+
 
 import CustomCheckbox from './form/CustomCheckbox';
 import { IconButton, Button } from './Buttons';
@@ -14,10 +16,15 @@ const Wrapper = styled.div`
 	&:not(:last-child){
 		border-bottom: 2px solid var(--color-black-lg);
 	}	
-`
 
+	@media ${props => props.theme.mediaQueries.desktop}{
+		padding: 2rem 0;
+	}
+`
 const ItemWrapper =  styled.div`
 	width:100%;
+	opacity: ${props => props.isItemDeleting ? 0.5 : 1};
+	transition: opacity 0.3s ease-in;
 `
 
 const ItemName = styled.div`
@@ -86,18 +93,61 @@ const OptionsWrapper = styled.div`
 	display:flex;
 	justify-content: center;
 	align-items: center;
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		display: none;
+	}
 `
 
 const OptionsButton = styled.div `
 	z-index: 1;
 	margin-right: .7rem;
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		display: none;
+	}
+`
+
+const ButtonList = styled.ul`
+	display: none;
+
+	list-style: none;
+	
+	li{
+		&:not(:last-child){
+			margin-right: 2rem;
+		}
+	}
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		display: flex;
+	}
+`
+
+const LoadingBox = styled.div`
+	display: none;
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		pointer-events: none; 
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		opacity: ${props => props.isItemDeleting ? 1 : 0};
+		transition: opacity 0.3s ease-in;		
+	}
 `
 
 const Item = ({item, onToggleTodoDone, onRemoveItem, isOptionsOpen, openOptionsForItem}) => {
 	const [checked, setChecked] = useState(false);
+	const [isItemDeleting, setIsItemDeleting] = useState(false);
 
 	useEffect(() =>{
-		setChecked(item.done);
+		setChecked(item.done);	
 	}, [item.done]);
 
 	const round = (number, decimals) => {
@@ -106,7 +156,7 @@ const Item = ({item, onToggleTodoDone, onRemoveItem, isOptionsOpen, openOptionsF
 
   return (
 		<Wrapper>
-			<ItemWrapper>
+			<ItemWrapper isItemDeleting={isItemDeleting}>
 				<ItemName>
 					<CustomCheckbox checked={checked} onChange={() => { 
 						setChecked(!checked); onToggleTodoDone(item._id)}}
@@ -133,7 +183,7 @@ const Item = ({item, onToggleTodoDone, onRemoveItem, isOptionsOpen, openOptionsF
 			</ItemWrapper>
 			<OptionsWrapper open={isOptionsOpen}>
 				<Button  color="primary" size="sm" spinner
-					onClick = {() => onRemoveItem(item._id)}
+					onClick = {() => { onRemoveItem(item._id)}}
 				>
 					Delete
 				</Button>
@@ -153,6 +203,24 @@ const Item = ({item, onToggleTodoDone, onRemoveItem, isOptionsOpen, openOptionsF
 					:<IconButton icon="bars" 	onClick={() => openOptionsForItem(item._id)}/>
 				}
 			</OptionsButton>
+			<ButtonList>
+				<li>
+					<IconButton icon="pencil-alt" bg="primary" size="lg" 
+					  onClick={() => window.toggleItemModal('update', item)}
+					/>
+				</li>
+				<li>
+					<IconButton icon="trash" bg="black-lg" size="lg"
+						onClick={ async () => {
+							setIsItemDeleting(true);
+							await onRemoveItem(item._id);
+						}}
+					/>
+				</li>
+			</ButtonList>
+			<LoadingBox isItemDeleting={isItemDeleting}>
+				<ReactLoading type="spin" color="white" height={60} width={60}/>
+			</LoadingBox>
 		</Wrapper>
   )
   

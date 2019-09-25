@@ -2,11 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const ChechboxLabelWrapper = styled.label``;
+const ChechboxLabelWrapper = styled.label`
+	
+
+`;
 
 const CheckboxContainer = styled.div`
   display: inline-block;
   vertical-align: middle;
+
 `;
 
 // Hide checkbox visually but remain accessible to screen readers.
@@ -43,6 +47,7 @@ const StyledCheckbox = styled.div`
   justify-content: center;
   width: 2.8rem;
   height: 2.8rem;
+  cursor: pointer;
   
 
   /* gradient radius trick */

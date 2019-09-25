@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HelloWrapper = styled.div`
-  margin-bottom: 3rem;
 `;
 
 const HelloText = styled.h1`
@@ -10,6 +9,7 @@ const HelloText = styled.h1`
   color: var(--color-dark);
   font-weight: var(--bold);
   text-transform: capitalize;
+  line-height: 0.8;
 `;
 
 const Username = styled.h1`
@@ -17,12 +17,12 @@ const Username = styled.h1`
   color: var(--color-primary);
   font-weight: var(--regular);
   text-transform: capitalize;
-  line-height: .3;
+  line-height: 0.9;
 `;
 
-function Hello({ username }) {
+function Hello({ username, inline}) {
   return (
-    <HelloWrapper>
+    <HelloWrapper inline={inline}>
       <HelloText>Hello</HelloText>
       <Username>{username || 'welcome'}</Username>
     </HelloWrapper>

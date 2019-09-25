@@ -37,6 +37,12 @@ export default createGlobalStyle`
       font-family: 'Poppins', sans-serif;
       font-weight: 400;
     }
+
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
     
     form,
     input,
@@ -46,4 +52,21 @@ export default createGlobalStyle`
     a {
       -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
+
+		body{
+			/* width */
+			::-webkit-scrollbar {
+			  width: 10px;
+			}
+
+			/* Track */
+			::-webkit-scrollbar-track {
+			  background: #f1f1f1;
+			}
+
+			/* Handle */
+			::-webkit-scrollbar-thumb {
+			  background: #888;
+			}
+		}
 `;

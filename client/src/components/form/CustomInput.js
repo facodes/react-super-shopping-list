@@ -33,9 +33,6 @@ const Input = styled.input`
     color: var(--color-accent);
     margin-left: 5px;
   }
-
-	flex-basis: ${({type}) => type === 'password' ? `90%` : `auto`};
-
 `;
 
 const Label = styled.label`

@@ -90,7 +90,7 @@ export const removeItem = itemId => {
         payload:{shoppingLists}
       });
       dispatch(setLoading(false));
-      Promise.resolve();
+      return Promise.resolve();
     }else{
       dispatch(setLoading(false));
       return Promise.reject();

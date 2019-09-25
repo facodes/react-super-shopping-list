@@ -12,6 +12,15 @@ const FormSwitchWrapper = styled.div`
   background: var(--color-dark);
   color: var(--color-light);
   border-radius: 32px;
+
+	overflow: hidden;
+	max-width: 375px;
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		flex-basis: 375px;
+
+	}
+
 `;
 
 const FormSwitchHeader = styled.div`

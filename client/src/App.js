@@ -9,7 +9,10 @@ import {
   faMinus,
   faDollarSign,
   faEye,
-  faSignOutAlt
+  faSignOutAlt,
+  faPencilAlt,
+  faTrash,
+
  } from '@fortawesome/free-solid-svg-icons';
 
  import { FadeInAnimation } from './utils/animations';
@@ -39,7 +42,9 @@ library.add(
  faMinus,
  faDollarSign,
  faEye,
- faSignOutAlt
+ faSignOutAlt,
+ faPencilAlt,
+ faTrash,
 );
 
 class App extends Component {

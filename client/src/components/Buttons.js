@@ -68,6 +68,10 @@ const StyledIconButton = styled.button`
   background: ${({bg}) => 
     bg ? `var(--color-${bg})`: `none`
   };
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+	  cursor: pointer;
+	}
 `
 
 export const IconButton = ({icon, bg, size, onClick, style, ...props}) => {

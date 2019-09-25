@@ -3,7 +3,7 @@ import {
   URL
 } from '../API'
 
-import { setLoading } from './control'
+import { setLoading, selectShoppingList, setShoppingListSelected } from './control'
 
 export const addNewShoppingList = (payload) => {
    return async (dispatch, getState) => {
@@ -45,6 +45,12 @@ export const updateShoppingList = payload =>{
     if (res.status === 200 ){
       const data = await res.json();
       dispatch(updateShoppingLists(data.shoppingLists));
+
+      if (getState().control.isShoppingListSelected){
+        const selectedShoppingList = data.shoppingLists.find( 
+          shoppingList => shoppingList._id === getState().control.shoppingListSelected._id);
+        dispatch (selectShoppingList(selectedShoppingList));
+      }
       dispatch(setLoading(false));
       return Promise.resolve();
     }else{
@@ -66,11 +72,18 @@ export const removeShoppingList = id => {
         'x-auth-token': getState().control.authToken
       },
     })
+
+
     
     if (res.status === 200 ){
       const data = await res.json();
+      if (getState().control.isShoppingListSelected){
+        dispatch (setShoppingListSelected(false));
+        dispatch (selectShoppingList(null));
+      }
       dispatch(updateShoppingLists(data.shoppingLists));
       dispatch(setLoading(false));
+      
       return Promise.resolve();
     }else{
       dispatch(setLoading(false));

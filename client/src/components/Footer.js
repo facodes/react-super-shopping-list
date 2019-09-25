@@ -19,13 +19,16 @@ const ImgContainer = styled.div`
 	img{
 		width:100%;
 	}
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		display: none;
+	}
+
 `
 
 const Credits = styled.p`
 	color: var(--color-grey);
-	font-size: 1.4rem;
-
-
+	font-size: 1.4rem;	
 `
 
 const Link = styled.a`
@@ -37,7 +40,7 @@ const Footer = (props) => {
   return (
   	<StyledFooter>
   		<ImgContainer>
-  			<img src={logo} alt=""/>
+  			<img src={logo} alt="logo"/>
   		</ImgContainer>
 			<Credits> 
 				Built by <Link href="#">Felix Lopez</Link>. All rights reserved <span>&copy;</span>

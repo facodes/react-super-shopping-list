@@ -1,5 +1,6 @@
 import React , { useState, useEffect} from 'react';
 import styled from 'styled-components';
+import ReactLoading from 'react-loading';
 
 // Components
 import { Button, IconButton} from  './Buttons';
@@ -13,13 +14,21 @@ const Wrapper = styled.div`
 	&:not(:last-child){
 		border-bottom: 2px solid var(--color-black-lg);
 	}	
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		padding: 2rem 0;
+		cursor: pointer;
+	};
 `
 
 const ItemWrapper =  styled.div`
 	width:100%;
+	opacity: ${props => props.isListDeleting ? 0.5 : 1};
+	transition: opacity 0.3s ease-in;
 `
 
 const ItemName = styled.p`
+	cursor: pointer;
 	display: block;
 	font-size: 2.4rem;
 	font-weight: var(--bold);
@@ -89,12 +98,39 @@ const OptionsWrapper = styled.div`
 	display:flex;
 	justify-content: center;
 	align-items: center;
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		display: none;
+	}
 `
 const OptionsButton = styled.div `
 	z-index:1;
 	margin-right: .7rem;
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		display: none;
+	}
 `
-const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingList, isLoading, openOptionsForList, isOptionsOpen}) => {
+
+const LoadingBox = styled.div`
+	display: none;
+
+	@media ${props => props.theme.mediaQueries.desktop}{
+		pointer-events: none; 
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		opacity: ${props => props.isListDeleting ? 1 : 0};
+		transition: opacity 0.3s ease-in;		
+	}
+`
+
+const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingList, isLoading, openOptionsForList, isOptionsOpen, isListDeleting}) => {
 
 	const itemsCount = shoppingList.items.length;
 	const [completedItemsPercentage, setCompletedItemsPercentage] = useState(0);
@@ -110,7 +146,10 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
 
   return (
    	<Wrapper >
-      <ItemWrapper onClick={() => onSelectShoppingList(shoppingList)}>
+      <ItemWrapper 
+      	onClick={() => onSelectShoppingList(shoppingList)} 
+      	isListDeleting = { isListDeleting === shoppingList._id }
+      >
         <ItemName >{shoppingList.name}</ItemName>
         <ListProgress>
 					<ItemCount>
@@ -154,6 +193,9 @@ const ShoppingListItem = ({onSelectShoppingList, shoppingList, onRemoveShoppingL
 					:<IconButton icon="bars" 	onClick={() => openOptionsForList(shoppingList._id)}/>
 				}
 			</OptionsButton>
+			<LoadingBox isListDeleting={isListDeleting === shoppingList._id}>
+				<ReactLoading type="spin" color="white" height={60} width={60}/>
+			</LoadingBox>
     </Wrapper>
   )
 }

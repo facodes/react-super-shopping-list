@@ -14,14 +14,12 @@ const Container = styled.div`
 `
 
 const LogoContainer = styled.div`
-	
 	width: 40%;
+	max-width: 300px;
 	img{
 		width:100%;
 	}
-
 `
-
 const Loading = (props) => {
   return (
     <Container>
