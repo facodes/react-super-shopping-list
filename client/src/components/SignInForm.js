@@ -1,50 +1,89 @@
-import React, { Component } from 'react'
-import { Form , Input , Label , Button , FormGroup } from 'reactstrap'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+
+import { SlideRightAnimation } from '../utils/animations';
+
+import { Button } from './Buttons';
+import CustomInput from './form/CustomInput';
+
+const StyledForm = styled.form`
+  padding: 4.625em 3rem 1em 3rem;
+  min-height: 33rem;
+`;
+
+const ButtonWrapper = styled.div`
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+`;
+
+const FormGroup = styled.div`
+  &:not(:last-child) {
+    margin-bottom: 4rem;
+  }
+`;
 
 export class SignInForm extends Component {
-
   state = {
-    username:'',
-    name:'',
-    password:'',
-  }
+    email: '',
+    name: '',
+    password: ''
+  };
 
-  onChange = (evt) => {
-    this.setState({[evt.target.name]:evt.target.value});
-  }
+  onInputChange = evt => {
+    this.setState({ [evt.target.name]: evt.target.value });
+  };
 
-  onSubmit = (evt) => {
+  onSubmit = evt => {
     evt.preventDefault();
-    this.props.onSignIn(this.state);
-  }
+    this.props.onSignIn(this.state)
+    	.then(() => {
+    		setTimeout(() => {
+    			this.props.setFormType(true);
+    		}, 500)	
+    	});
+  };
 
   render() {
     return (
-      <Form onSubmit={this.onSubmit}>
-        <FormGroup>
-          <Label for="name">Name</Label>
-          <Input type="text"  name="name" onChange={this.onChange} autoComplete="off" 
-            placeholder="Enter Your Name"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="username">Username</Label>
-          <Input type="text"  name="username" onChange={this.onChange} autoComplete="off" 
-            placeholder="Enter Your Email"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input type="password"  name="password" onChange={this.onChange} autoComplete="off"
-            placeholder="Enter Your Password"
-          />
-        </FormGroup>
-        <div className="text-center">
-          <Button type="submit" color="success" >Sign In</Button>
-        </div>
-      </Form>
-    )
+    	<SlideRightAnimation>
+	      <StyledForm onSubmit={this.onSubmit}>
+	        <FormGroup>
+	          <CustomInput
+	            label="email"
+	            type="email"
+	            name="email"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <FormGroup>
+	          <CustomInput
+	            label="name"
+	            type="text"
+	            name="name"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <FormGroup>
+	          <CustomInput
+	            label="password"
+	            type="password"
+	            name="password"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <ButtonWrapper>
+	          <Button type="submit" color="accent" spinner>
+	            Register
+	          </Button>
+	        </ButtonWrapper>
+	      </StyledForm>
+    	</SlideRightAnimation>
+    );
   }
 }
 
-export default SignInForm
+export default SignInForm;

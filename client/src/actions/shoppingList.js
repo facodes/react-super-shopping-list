@@ -1,23 +1,70 @@
 import { UPDATE_SHOPPINGLISTS } from '../actions/types'
+import {
+  URL
+} from '../API'
 
-export const addNewShoppingList = (name) => {
+import { setLoading, selectShoppingList, setShoppingListSelected } from './control'
+
+export const addNewShoppingList = (payload) => {
    return async (dispatch, getState) => {
-      const res = await fetch('/api/user/shopping' ,{
+      dispatch(setLoading(true));
+      const res = await fetch(`${URL}/api/user/shopping` ,{
         method:'POST',
-        body:JSON.stringify({name}),
+        body:JSON.stringify(payload),
         headers:{
           'Content-Type': 'application/json',
           'x-auth-token': getState().control.authToken
         },
       })
-      const data = await res.json();
-      dispatch(updateShoppingLists(data.shopping_lists));
+
+      if (res.status === 200 ){
+        const data = await res.json();
+        dispatch(updateShoppingLists(data.shoppingLists));
+        dispatch(setLoading(false));
+        return Promise.resolve();
+      }else{
+        dispatch(setLoading(false));
+        return Promise.reject();
+      }
+  
    }
 } 
 
+export const updateShoppingList = payload =>{
+  return async (dispatch, getState) => {
+    dispatch(setLoading(true));
+    const res = await fetch(`${URL}/api/user/shopping/${payload.id}` ,{
+      method:'PATCH',
+      body:JSON.stringify(payload),
+      headers:{
+        'Content-Type': 'application/json',
+        'x-auth-token': getState().control.authToken
+      },
+    })
+    
+    if (res.status === 200 ){
+      const data = await res.json();
+      dispatch(updateShoppingLists(data.shoppingLists));
+
+      if (getState().control.isShoppingListSelected){
+        const selectedShoppingList = data.shoppingLists.find( 
+          shoppingList => shoppingList._id === getState().control.shoppingListSelected._id);
+        dispatch (selectShoppingList(selectedShoppingList));
+      }
+      dispatch(setLoading(false));
+      return Promise.resolve();
+    }else{
+      dispatch(setLoading(false));
+      return Promise.reject();
+    }
+  }
+}
+
+
 export const removeShoppingList = id => {
   return async (dispatch, getState) => {
-    const res = await fetch('/api/user/shopping' ,{
+    dispatch(setLoading(true));
+    const res = await fetch(`${URL}/api/user/shopping` ,{
       method:'DELETE',
       body:JSON.stringify({id}),
       headers:{
@@ -25,16 +72,31 @@ export const removeShoppingList = id => {
         'x-auth-token': getState().control.authToken
       },
     })
-    const data = await res.json();
-    dispatch(updateShoppingLists(data.shopping_lists));
+
+
+    
+    if (res.status === 200 ){
+      const data = await res.json();
+      if (getState().control.isShoppingListSelected){
+        dispatch (setShoppingListSelected(false));
+        dispatch (selectShoppingList(null));
+      }
+      dispatch(updateShoppingLists(data.shoppingLists));
+      dispatch(setLoading(false));
+      
+      return Promise.resolve();
+    }else{
+      dispatch(setLoading(false));
+      return Promise.reject();
+    }
   }
 }
 
-export const updateShoppingLists = (shopping_lists) => {
+export const updateShoppingLists = (shoppingLists) => {
     return dispatch => {
       dispatch({
         type:UPDATE_SHOPPINGLISTS,
-        payload:{shopping_lists}
+        payload:{shoppingLists}
       })
     }
 }

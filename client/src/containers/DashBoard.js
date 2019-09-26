@@ -1,85 +1,91 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { useState,  useEffect } from 'react';
+import { connect } from 'react-redux';
 
-import ModalShoppingList from './ModalShoppingList'
-import ModalItem from './ModalItem'
-import ShoppingList from '../components/ShoppingList'
-import ItemList from '../components/ItemList'
 
-import { removeShoppingList } from '../actions/shoppingList'
+// Components
+import MobileDashBoard from '../components/MobileDashBoard';
+import DesktopDashBoard from '../components/DesktopDashBoard';
+
+// Actions
+import { removeShoppingList } from '../actions/shoppingList';
 import { selectShoppingList } from '../actions/control';
-import { removeItem , toggleTodoDone} from '../actions/items';
+import { removeItem, toggleTodoDone } from '../actions/items';
 
-export class DashBoard extends Component {
+const DashBoard = (props) => {
 
-  render() {
-    const { name , shopping_lists } = this.props.user;
-    const { isShoppingListSelected, shoppingListSelected } = this.props.control; 
-    return (
-      <div>
-        <section className="mb-2 d-flex align-content-center">
-          <h3>{name}</h3>
-            <div className="ml-auto">
-              {
-                !isShoppingListSelected ? (
-                  <ModalShoppingList></ModalShoppingList>
-                ) : ( 
-                  <div className="d-flex">
-                    <button 
-                      className="btn btn-secondary"
-                      onClick={this.props.onSelectShoppingList.bind(this,null)}  
-                      ><i className="fas fa-arrow-left"/>
-                    </button>
-                      <ModalItem shoppingList={shoppingListSelected}></ModalItem>
-                  </div>
-                )
-              }
-            </div>
-        </section>
-        <hr className="border border-secondary"></hr>
-          {
-            !isShoppingListSelected ? 
-              (
-              <ShoppingList 
-                shoppingLists={shopping_lists}
-                onRemoveShoppingList={this.props.onRemoveShoppingList}
-                onSelectShoppingList={this.props.onSelectShoppingList}
-              />)
-            :
-              (<ItemList 
-                  shoppingList={shoppingListSelected}
-                  onRemoveItem={this.props.onRemoveItem}
-                  onToggleTodoDone = {this.props.onToggleTodoDone}
-                />
-              )  
-          }
-      </div>
-    )
-  }
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth)
+    }
+    window.addEventListener(`resize`, handleResize)
+    return () => { window.removeEventListener(`resize`, handleResize) }
+  }, []);
+
+  const { shoppingLists, name } = props.user;
+  const { 
+    isShoppingListSelected, 
+    shoppingListSelected,
+    isLoading
+  } = props.control;
+
+
+
+  return (
+    <>
+      { width < 900 ? 
+        (<MobileDashBoard
+          isShoppingListSelected={isShoppingListSelected}
+          shoppingListSelected={shoppingListSelected}
+          isLoading={isLoading}
+          shoppingLists={shoppingLists}
+          onRemoveShoppingList={props.onRemoveShoppingList}
+          onSelectShoppingList={props.onSelectShoppingList}
+          onRemoveItem={props.onRemoveItem}
+          onToggleTodoDone={props.onToggleTodoDone}
+        />) : (
+        <DesktopDashBoard
+        	username = { name }
+          isShoppingListSelected={isShoppingListSelected}
+          shoppingListSelected={shoppingListSelected}
+          isLoading={isLoading}
+          shoppingLists={shoppingLists}
+          onRemoveShoppingList={props.onRemoveShoppingList}
+          onSelectShoppingList={props.onSelectShoppingList}
+          onRemoveItem={props.onRemoveItem}
+          onToggleTodoDone={props.onToggleTodoDone}
+        />)
+
+      }
+    </>    
+  );
 }
 
-function mapStateToProps (state) {
-  return{
+function mapStateToProps(state) {
+  return {
     user: state.user,
-    control: state.control,
-  }
+    control: state.control
+  };
 }
 
-function mapDispatchToProps(dispatch){
-  return{
-    onSelectShoppingList(shoppingList){
-      dispatch(selectShoppingList(shoppingList))      
+function mapDispatchToProps(dispatch) {
+  return {
+    onSelectShoppingList(shoppingList) {
+      dispatch(selectShoppingList(shoppingList));
     },
-    onRemoveShoppingList(id){
-      dispatch(removeShoppingList(id));
+    async onRemoveShoppingList(id) {
+      await dispatch(removeShoppingList(id));
     },
-    onRemoveItem(id){
-      dispatch(removeItem(id));
+    async onRemoveItem(id) {
+      await dispatch(removeItem(id));
     },
-    onToggleTodoDone(id){      
+    onToggleTodoDone(id) {
       dispatch(toggleTodoDone(id));
     }
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashBoard);

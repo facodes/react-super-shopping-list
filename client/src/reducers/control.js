@@ -14,7 +14,11 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
   case LOGIN_SUCCESS:
-    localStorage.setItem('token' , payload.token);
+
+    if (payload.keepUserLoggedIn){
+      localStorage.setItem('token' , payload.token);
+    }
+
     return{
       ...state,
       authToken:payload.token,
@@ -25,6 +29,8 @@ export default (state = initialState, { type, payload }) => {
     return{
       ...state,
       authToken:null,
+      isShoppingListSelected: false,
+      shoppingListSelected:Object,
       isUserLogged:false,
     }
   } 

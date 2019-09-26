@@ -1,45 +1,85 @@
-import React, { Component } from 'react'
-import { Form , Input , Label , Button , FormGroup } from 'reactstrap'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+
+import { SlideRightAnimation } from '../utils/animations';
+
+import { Button } from './Buttons';
+import CustomInput from './form/CustomInput';
+import CustomCheckbox from './form/CustomCheckbox';
+
+const StyledForm = styled.form`
+  padding: 4.625em 3rem 1em 3rem;
+  min-height: 33rem;
+`;
+
+const ButtonWrapper = styled.div`
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+`;
+
+const FormGroup = styled.div`
+  &:not(:last-child) {
+    margin-bottom: 4rem;
+  }
+`;
 
 export class LoginForm extends Component {
-
   state = {
-    username:'',
-    password:'',
-  }
+    email: '',
+    password: '',
+    keepUserLoggedIn: false
+  };
 
-  onChange = (evt) => {
-    this.setState({[evt.target.name]:evt.target.value});
-  }
+  onCheckboxChange = evt => this.setState({ keepUserLoggedIn: evt.target.checked });
 
-  onSubmit = (evt) => {
+  onInputChange = evt => {
+    this.setState({ [evt.target.name]: evt.target.value });
+  };
+
+  onSubmit = evt => {
     evt.preventDefault();
     this.props.onLogIn(this.state);
-  }
+  };
 
   render() {
     return (
-      <div>
-         <Form onSubmit={this.onSubmit}>
-          <FormGroup>
-            <Label for="username">Username</Label>
-            <Input type="text"  name="username" 
-              onChange={this.onChange} autoComplete="off" placeholder="Enter Your Username"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="pw">Password</Label>
-            <Input type="password"  name="password" onChange={this.onChange} autoComplete="off"  
-              placeholder="Enter Your Password"
-            />
-          </FormGroup>
-          <div className="text-center">
-            <Button type="submit" color="success"  >Log In</Button>
-          </div>
-        </Form>
-      </div>
-    )
+    	<SlideRightAnimation>
+	      <StyledForm onSubmit={this.onSubmit}>
+	        <FormGroup>
+	          <CustomInput
+	            label="email"
+	            type="email"
+	            name="email"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <FormGroup>
+	          <CustomInput
+	            label="password"
+	            type="password"
+	            name="password"
+	            onChange={this.onInputChange}
+	            required
+	          />
+	        </FormGroup>
+	        <FormGroup>
+	          <CustomCheckbox
+	            label="keep me log in"
+	            checked={this.state.keepUserLoggedIn}
+	            onChange={this.onCheckboxChange}
+	          />
+	        </FormGroup>
+	        <ButtonWrapper>
+	          <Button type="submit" color="accent" spinner>
+	            Login
+	          </Button>
+	        </ButtonWrapper>
+	      </StyledForm>
+    	</SlideRightAnimation>
+    );
   }
 }
 
-export default LoginForm
+export default LoginForm;

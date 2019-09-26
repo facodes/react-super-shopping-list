@@ -1,39 +1,38 @@
-import React, { Component } from 'react'
-import { ListGroup, ListGroupItem} from 'reactstrap'
-import {TransitionGroup , CSSTransition} from 'react-transition-group'
+import React , { useState } from 'react'
 
+import { SlideRightAnimation } from '../utils/animations';
 
 // components
 import Item from './Item';
 
-export class ItemList extends Component {
-  render() {    
-    const { name , items } = this.props.shoppingList;
-    return (
-      <React.Fragment>
-        <h5 >{`${name} items`}</h5>
-        <ListGroup>
-          <TransitionGroup>
-            {
-              items.map((item,index) => {
-                return (
-                  <CSSTransition key={index} timeout={250} classNames='fade'>
-                    <ListGroupItem className="mb-2">
-                      <Item
-                        item={item}
-                        onRemoveItem={this.props.onRemoveItem}
-                        onToggleTodoDone = {this.props.onToggleTodoDone}
-                      />
-                    </ListGroupItem>
-                  </CSSTransition>)
-              })
-            }
-          </TransitionGroup>
-        </ListGroup>
-      </React.Fragment>
 
-    )
-  }
+const ItemList = ({ shoppingList, onRemoveItem, onToggleTodoDone, isShoppingListSelected}) => {
+
+	const [itemOpenId, setItemOpenId] = useState(null);
+
+	function openOptionsForItem (id){
+		setItemOpenId(id);
+	}
+
+  const { items } = shoppingList ;
+  return (
+    <SlideRightAnimation>
+      {
+       items.map((item) => {
+          return (
+            <Item
+              key={item._id}
+              item={item}
+              isOptionsOpen = {itemOpenId === item._id ? true : false }
+              openOptionsForItem={openOptionsForItem}
+              onRemoveItem={onRemoveItem}
+              onToggleTodoDone = {onToggleTodoDone}
+            />   
+          )
+        })
+      }
+    </SlideRightAnimation>
+  )
 }
 
 export default ItemList
