@@ -43,7 +43,11 @@ const Footer = (props) => {
   			<img src={logo} alt="logo"/>
   		</ImgContainer>
 			<Credits> 
-				Built by <Link href="#">Felix Lopez</Link>. All rights reserved <span>&copy;</span>
+				Built by 
+				<Link 
+					href="https://felixlopez.tech" 
+					target="__blank"
+				> Felix Lopez </Link>.All rights reserved <span>&copy;</span>
 			</Credits>
   	</StyledFooter>
   )
