@@ -10,11 +10,13 @@ Feel free to contribute to this project there is still to do the password recove
 
 ![thumbnail](thumbnail.png)
 
-## Installation
+## Installation and Configuration
 
 ### Backend (Node, Express)
 
-Add a MONGO_URI and jwt secret in a .env file, example in .env.sample
+Add your database connection to an eviroment variable named `MONGO_URI` and a jwt secret named `jwtSecret` in a `.env` file at backend directory, example in .env.sample.
+
+this API is configured to use netlify serverless lambda functions, you can se more info about the configuration watching this [video](https://www.youtube.com/watch?v=hQAu0YEIF0g)
 
 ```sh
   git clone https://github.com/felixlopz/react-super-shopping-list.git
@@ -25,17 +27,21 @@ Add a MONGO_URI and jwt secret in a .env file, example in .env.sample
 #### Available commands
 
 ```sh
-  npm run start # runs node
-  npm run dev # runs development server on port 5000
+  npm run start # runs development server with netlify-lambda on port 9000 
+  npm run build # builds the application on dist folder
 ```
 
 ### Client (React App)
+
+This client uses a global API url, if you have deployed the backend you can use that url setting up an eviroment variable named `REACT_APP_API` in a `.env` file at client directory, example in `.env.sample`.
+
+Theres is file named `API.js` at `src` directory where you can set your api url, take in concideration the following fetch url ``` fetch(`${URL}/api/user/shopping`)```
+
 ```sh
   git clone https://github.com/felixlopz/react-super-shopping-list.git
   cd client
   npm install
 ```
-
 
 
 
