@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "./node_modules/.bin/netlify-lambda serve src",
+    "build": "./node_modules/.bin/netlify-lambda build src"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -16,7 +16,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
-    "nodemon": "^1.19.0"
+    "netlify-lambda": "^1.6.3",
+    "nodemon": "^1.19.0",
+    "serverless-http": "^2.3.1"
   },
   "devDependencies": {}
 }
