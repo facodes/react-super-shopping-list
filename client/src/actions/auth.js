@@ -22,7 +22,6 @@ export const signIn = (payload) =>{
       dispatch(showAlert({msg:'Password must be at least 4 characters', color:'black'}));      
       return Promise.reject();
     } 
-
     dispatch(setLoading(true));
     // Making the request
     const res =  await fetch(`${URL}/api/signin`,{
@@ -55,10 +54,13 @@ export const logIn = payload =>{
       dispatch(showAlert({msg:'Please complete all the fields', color:'black'}));
       return;
     }
+
+    console.log (URL);
     const res = await fetch(`${URL}/api/login`,{
       method:'POST',
       body:JSON.stringify(payload),
-      headers:{"Content-type" : "application/json"}
+      headers:{"Content-type" : "application/json"},
+      mode: 'cors'
     })
     const data = await res.json();
     if(res.status === 200){
