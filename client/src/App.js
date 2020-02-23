@@ -16,6 +16,7 @@ import {
  } from '@fortawesome/free-solid-svg-icons';
 
  import { FadeInAnimation } from './utils/animations';
+ import styled from 'styled-components';
 
 // components
 import NavBar from './components/NavBar';
@@ -47,6 +48,14 @@ library.add(
  faTrash,
 );
 
+
+const AppWrapper = styled.div`
+  height: 100vh;
+
+
+`
+
+
 class App extends Component {
   componentDidMount() {
     this.props.onInitApp();
@@ -58,10 +67,12 @@ class App extends Component {
       <>
         {isAppInitialized ? (
           <FadeInAnimation>
-            <NavBar/>
-            {isUserLogged ? <DashBoard /> : <Welcome />}
-            <Footer/>
-            <Alert/>
+            <AppWrapper>
+              <NavBar/>
+              {isUserLogged ? <DashBoard /> : <Welcome />}
+              <Footer/>
+              <Alert/>
+            </AppWrapper>
           </FadeInAnimation>
         ) : <Loading />
         }

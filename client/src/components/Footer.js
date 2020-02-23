@@ -47,7 +47,7 @@ const Footer = (props) => {
 				<Link 
 					href="https://felixlopez.tech" 
 					target="__blank"
-				> Felix Lopez </Link>.All rights reserved <span>&copy;</span>
+				> Felix Lopez </Link>.All rights reserved <span>{ new Date().getFullYear()} &copy;</span>
 			</Credits>
   	</StyledFooter>
   )

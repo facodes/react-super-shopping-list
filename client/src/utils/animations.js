@@ -53,7 +53,7 @@ const FadeIn= keyframes`
 
 export const FadeInAnimation  = styled.div`
 	animation-name: ${FadeIn};
-	animation-duration: .3s;
+	animation-duration: 1s;
  	animation-timing-function: ease;
  	animation-delay: 0s;
  	animation-iteration-count: 1;

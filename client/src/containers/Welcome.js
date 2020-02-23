@@ -59,6 +59,7 @@ const WelcomeText = styled.p`
 
 	@media ${props => props.theme.mediaQueries.desktop}{
 		margin-right: 8rem;
+		padding: 0;
 	}
 
 `;
@@ -73,8 +74,8 @@ export class Welcome extends Component {
 						<Hello />
 					</HelloWrapper>
         	<WelcomeText>
-          	A shopping list app, that helps you to get track off all your
-          	needs
+          	A shopping list app, that helps you to keep track off all your
+          	needs.
         	</WelcomeText>
         	<ImgContainer>
         		<img src={shoppint_cart} alt="guy with a cart and a shoppig list"/>
