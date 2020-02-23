@@ -1,6 +1,6 @@
 # Supper Shopping list app
 
-this is my first full stack web application i developed, is a basic app, where you can login and add as many shopping lists as you want and add items to them, I built this app from scratch including the UI design, you can see it here, and it uses the MERN stack, redux, styled components and jwt for authentication.
+this is my first full stack web application i developed, is a basic app, where you can login and add as many shopping lists as you want and add items to them, I built this app from scratch including the UI design, you can see it [here](https://www.figma.com/file/tj2xEHtrz8av6EIQCN3adD/super-shopping-list?node-id=0%3A1), and it uses the MERN stack, redux, styled components and jwt for authentication.
 
 The goal for me was to create something for using while doing my shoppings, because i have to go to severals places to save a litte bit of money.
 
