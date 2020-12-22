@@ -55,7 +55,6 @@ export const logIn = payload =>{
       return;
     }
 
-    console.log (URL);
     const res = await fetch(`${URL}/api/login`,{
       method:'POST',
       body:JSON.stringify(payload),
