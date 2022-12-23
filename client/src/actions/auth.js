@@ -12,6 +12,8 @@ import {
   URL
 } from '../API'
 
+console.log(URL);
+
 export const signIn = (payload) =>{
   return async dispatch => {
     // Client side validation for inputs

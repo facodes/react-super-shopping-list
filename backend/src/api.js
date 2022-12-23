@@ -19,25 +19,29 @@ app.use(cookieParser());
 
 // Connecting to mongo
 mongoose
-  .connect(process.env.MONGO_CONNECTION, {useNewUrlParser: true , useCreateIndex: true})
+  .connect(process.env.MONGO_CONNECTION, {useNewUrlParser: true , useCreateIndex: true, useUnifiedTopology: true})
   .then(()=> console.log('MongoDB Connected'))
   .catch((err)=> console.log(err));
 
 const netlifyRoot = '/.netlify/functions';
 
 // routes
-app.use (`${netlifyRoot}/api/signin` , require('./routes/api/signin'));
-app.use (`${netlifyRoot}/api/login` , require('./routes/api/login'));
-app.use (`${netlifyRoot}/api/user` , require('./routes/api/user'));
+app.use (`/api/signin` , require('./routes/api/signin'));
+app.use (`/api/login` , require('./routes/api/login'));
+app.use (`/api/user` , require('./routes/api/user'));
 
 
 // Basic get rout
 const router = express.Router(); 
 
-router.get('/', (req, res) => {
+app.get('/', (req, res) => {
 	res.send("Super shopping list API see https://github.com/felixlopz/react-super-shopping-list for more info");
 });
 
-app.use (`${netlifyRoot}/api/`,  router )
+// app.use (`${netlifyRoot}/api/`,  router )
 
-module.exports.handler = serverless(app);
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000/');
+})
+
+
