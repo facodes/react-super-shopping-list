@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import logo from '../assets/logo.jpg';
 
@@ -12,17 +12,19 @@ import { connect } from 'react-redux';
 import { logOut } from '../actions/auth';
 
 const StyledNavBar = styled.div`
-	display: flex;
-	justify-content: space-between;
-	padding: 2em 0;
-`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  margin-top: 40px;
+`;
 const HelloWrapper = styled.div`
-	@media ${props => props.theme.mediaQueries.desktop}{
-		display: none;
-	}
-`
+  @media ${props => props.theme.mediaQueries.desktop} {
+    display: none;
+  }
+`;
 const DesktopHello = styled.h2`
-  @media ${props => props.theme.mediaQueries.desktop}{
+  @media ${props => props.theme.mediaQueries.desktop} {
     display: flex;
     align-items: center;
     font-size: 4.8rem;
@@ -31,54 +33,60 @@ const DesktopHello = styled.h2`
     text-transform: capitalize;
     margin-left: 3rem;
     span {
-      margin-left: 1rem;
+      margin-left: 2rem;
       font-size: 4rem;
       color: var(--color-primary);
       font-weight: var(--regular);
       text-transform: capitalize;
     }
-  } 
-`
+  }
+`;
 
 const ImgContainer = styled.div`
-	display: none;
-	width: 6.4rem;
-	height: 6.4rem;
-	margin-bottom: 2rem;
-	img{
-		width:100%;
-	}
+  display: none;
+  width: 6.4rem;
+  height: 6.4rem;
+  img {
+    width: 100%;
+  }
 
-	@media ${props => props.theme.mediaQueries.desktop}{
-		display: flex;
-	}
-`
+  @media ${props => props.theme.mediaQueries.desktop} {
+    display: flex;
+    flex-basis: 100%;
+  }
+`;
+
+const StyledImage = styled.img`
+  max-width: 64px;
+`;
+
 export class NavBar extends Component {
   render() {
     const { isUserLogged, isAppInitialized } = this.props;
     return (
       <Row>
-      	<StyledNavBar>
-      		<HelloWrapper>
-		      	<Hello username={this.props.username} />
-      		</HelloWrapper>
-      		<ImgContainer>
-      			<img src={logo} alt="logo"/>
-            {
-              isUserLogged &&
-               <DesktopHello>
-                 Hello <span>{this.props.username}</span>
-               </DesktopHello>
-            }
-      		</ImgContainer>
-          
-		      {isUserLogged && isAppInitialized && (
-		        <FontAwesomeIcon icon="sign-out-alt" size="3x"
-						  onClick={() => this.props.onLogOut()}
-              style={{color: '#223843'}}
-  		      />
-		      )}
-      	</StyledNavBar>
+        <StyledNavBar>
+          <HelloWrapper>
+            <Hello username={this.props.username} />
+          </HelloWrapper>
+          <ImgContainer>
+            <StyledImage src={logo} alt="logo" />
+            {isUserLogged && (
+              <DesktopHello>
+                Hello <span>{this.props.username}</span>
+              </DesktopHello>
+            )}
+          </ImgContainer>
+
+          {isUserLogged && isAppInitialized && (
+            <FontAwesomeIcon
+              icon="sign-out-alt"
+              size="3x"
+              onClick={() => this.props.onLogOut()}
+              style={{ color: '#223843' }}
+            />
+          )}
+        </StyledNavBar>
       </Row>
     );
   }
