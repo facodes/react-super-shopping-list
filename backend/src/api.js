@@ -30,14 +30,14 @@ mongoose
   .catch((err) => console.log(err));
 
 function initializeRoutes() {
-  const netlifyRoot = "/.netlify/functions";
+  const netlifyRoot = "/.netlify/functions/api";
 
-  const apiRoot = process.env.NODE_ENV === "production" ? netlifyRoot : "";
+  const apiRoot = process.env.NODE_ENV === "production" ? netlifyRoot : "/api";
 
   // routes
-  app.use(`${apiRoot}/api/signin`, require("./routes/api/signin"));
-  app.use(`${apiRoot}/api/login`, require("./routes/api/login"));
-  app.use(`${apiRoot}/api/user`, require("./routes/api/user"));
+  app.use(`${apiRoot}/signin`, require("./routes/api/signin"));
+  app.use(`${apiRoot}/login`, require("./routes/api/login"));
+  app.use(`${apiRoot}/user`, require("./routes/api/user"));
 
   // Basic get rout
   const router = express.Router();
@@ -48,7 +48,7 @@ function initializeRoutes() {
     );
   });
 
-  app.use(`${apiRoot}/api/`, router);
+  app.use(`${apiRoot}/`, router);
 
   const port = process.env.PORT || 9000;
 
