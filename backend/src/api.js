@@ -50,7 +50,11 @@ function initializeRoutes() {
 
   app.use(`${apiRoot}/api/`, router);
 
+<<<<<<< HEAD
   const port = process.env.PORT || 9000;
+=======
+  const port = process.env.PORT || 3000;
+>>>>>>> 62d0cc0 (updating app.js and enviroment variables)
   app.listen(port, () => {
     console.log(`API server listening on port http://localhost:${port}`);
   });
