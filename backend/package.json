@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "nodemon ./src/api.js",
     "start": "./node_modules/.bin/netlify-lambda serve src",
     "build": "./node_modules/.bin/netlify-lambda build src"
   },
