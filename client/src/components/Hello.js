@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const HelloWrapper = styled.div`
-`;
+const HelloWrapper = styled.div``;
 
 const HelloText = styled.h1`
   font-size: 6.4rem;
@@ -18,9 +17,10 @@ const Username = styled.h1`
   font-weight: var(--regular);
   text-transform: capitalize;
   line-height: 0.9;
+  margin-top: 10px;
 `;
 
-function Hello({ username, inline}) {
+function Hello({ username, inline }) {
   return (
     <HelloWrapper inline={inline}>
       <HelloText>Hello</HelloText>
