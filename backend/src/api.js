@@ -30,7 +30,7 @@ mongoose
   .catch((err) => console.log(err));
 
 function initializeRoutes() {
-  const netlifyRoot = "/netlify/functions";
+  const netlifyRoot = "/.netlify/functions";
 
   const apiRoot = process.env.NODE_ENV === "production" ? netlifyRoot : "";
 
