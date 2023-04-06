@@ -39,17 +39,17 @@ app.use(`${apiRoot}/user`, require("./src/routes/api/user"));
 // Basic get rout
 const router = express.Router();
 
-// router.get("/", (req, res) => {
-//   res.send(
-//     `Super shopping list API see ${process.env.PROJECT_REPOSITORY_URL} for more info`
-//   );
-// });
+router.get(`${apiRoot}/`, (req, res) => {
+  res.send(
+    `Super shopping list API see ${process.env.PROJECT_REPOSITORY_URL} for more info`
+  );
+});
+
+app.use(`${apiRoot}/`, router);
 
 app.get("/", (req, res) => {
   res.sendFile("index.html", { root: path.join(__dirname, "public") });
 });
-
-// app.use(`${apiRoot}/`, router);
 
 module.exports = app;
 // module.exports.handler = serverless(app);
