@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./src/api.js",
-    "start": "./node_modules/.bin/netlify-lambda serve src",
-    "build": "./node_modules/.bin/netlify-lambda build src"
+    "build": "netlify deploy --prod"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,6 +16,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
+    "netlify-cli": "^13.2.2",
     "netlify-lambda": "^1.6.3",
     "nodemon": "^2.0.20",
     "serverless-http": "^2.3.1"
