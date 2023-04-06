@@ -88,3 +88,5 @@ typings/
 
 # React Build Folder
 build/
+# Local Netlify folder
+.netlify

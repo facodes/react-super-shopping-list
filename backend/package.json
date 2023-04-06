@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./src/api.js",
+    "dev": "nodemon ./src/api/index.js",
     "start": "node ./src/api.js"
   },
   "dependencies": {
