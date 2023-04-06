@@ -32,9 +32,9 @@ mongoose
 const apiRoot = "/api";
 
 // routes
-app.use(`${apiRoot}/signin`, require("./src/routes/api/signin"));
-app.use(`${apiRoot}/login`, require("./src/routes/api/login"));
-app.use(`${apiRoot}/user`, require("./src/routes/api/user"));
+app.use(`${apiRoot}/signin`, require("../routes/api/signin"));
+app.use(`${apiRoot}/login`, require("../routes/api/login"));
+app.use(`${apiRoot}/user`, require("../routes/api/user"));
 
 // Basic get rout
 const router = express.Router();
