@@ -25,37 +25,26 @@ mongoose
   })
   .then(() => {
     console.log("MongoDB Connected");
-    initializeRoutes();
   })
   .catch((err) => console.log(err));
 
-function initializeRoutes() {
-  const netlifyRoot = "/.netlify/functions/api";
+const apiRoot = "/api";
 
-  const apiRoot = process.env.NODE_ENV === "production" ? netlifyRoot : "/api";
+// routes
+app.use(`${apiRoot}/signin`, require("../routes/api/signin"));
+app.use(`${apiRoot}/login`, require("../routes/api/login"));
+app.use(`${apiRoot}/user`, require("../routes/api/user"));
 
-  // routes
-  app.use(`${apiRoot}/signin`, require("../routes/api/signin"));
-  app.use(`${apiRoot}/login`, require("../routes/api/login"));
-  app.use(`${apiRoot}/user`, require("../routes/api/user"));
+// Basic get rout
+const router = express.Router();
 
-  // Basic get rout
-  const router = express.Router();
+router.get("/", (req, res) => {
+  res.send(
+    `Super shopping list API see ${process.env.PROJECT_REPOSITORY_URL} for more info`
+  );
+});
 
-  router.get("/", (req, res) => {
-    res.send(
-      `Super shopping list API see ${process.env.PROJECT_REPOSITORY_URL} for more info`
-    );
-  });
-
-  app.use(`${apiRoot}/`, router);
-
-  const port = process.env.PORT || 9000;
-
-  app.listen(port, () => {
-    console.log(`API server listening on port http://localhost:${port}`);
-  });
-}
+app.use(`${apiRoot}/`, router);
 
 module.exports = app;
 // module.exports.handler = serverless(app);
