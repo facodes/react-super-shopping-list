@@ -6,7 +6,7 @@ The goal for me was to create something for using while doing my shoppings, beca
 
 Feel free to contribute to this project there is still to do the password recovery implementation
 
-# [Live Demo](https://ssl.felixlopez.tech)
+# [Live Demo](https://ssl.felixlopez.xyz)
 
 ![thumbnail](thumbnail.png)
 
@@ -35,7 +35,7 @@ this API is configured to use netlify serverless lambda functions, you can se mo
 
 This client uses a global API url, if you have deployed the backend you can use that url setting up an eviroment variable named `REACT_APP_API` in a `.env` file at client directory, example in `.env.sample`.
 
-Theres is file named `API.js` at `src` directory where you can set your api url, take in concideration the following fetch url `` fetch(`${URL}/api/user/shopping`)``
+Theres is file named `API.js` at `src` directory where you can set your api url, take in concideration the following fetch url `` fetch(`${URL}/user/shopping`)``
 
 ```sh
   git clone https://github.com/felixlopz/react-super-shopping-list.git
