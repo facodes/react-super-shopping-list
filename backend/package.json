@@ -16,7 +16,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
-    "netlify-cli": "^13.2.2",
+    "netlify-cli": "^15.3.1",
     "netlify-lambda": "^1.6.3",
     "nodemon": "^2.0.20",
     "serverless-http": "^2.3.1"
